@@ -11,9 +11,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.InputType;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,12 +22,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -38,9 +32,7 @@ import com.travelapp.Models.SigninModel;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -48,10 +40,10 @@ public class SigninActivity extends AppCompatActivity {
 
     EditText signupName, signupUsername, signupEmail, signupPassword, signupphone, bio;
     TextView loginRedirectText;
-    private Button btnUpload;
+    private Button btnSelect, btnUpload;
     private ImageView imageView;
     private Uri filePath;
-    TextView signupButton, uploadimage;
+    TextView signupButton;
     FirebaseDatabase database;
     DatabaseReference reference;
     FirebaseStorage storage;
@@ -73,40 +65,15 @@ public class SigninActivity extends AppCompatActivity {
         signupButton = findViewById(R.id.signupbutton);
         Spinner spinnerCountry = findViewById(R.id.spinnerCountry);
         Spinner spinnerCity = findViewById(R.id.spinnerCity);
+        btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
         imageView = findViewById(R.id.imgView);
-        uploadimage = findViewById(R.id.uploadimage);
         bio = findViewById(R.id.bio);
-        ImageView togglePassword = findViewById(R.id.togglePassword);
-
-        togglePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Toggle password visibility
-                int inputType = (signupPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) ?
-                        InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD :
-                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
-
-                signupPassword.setInputType(inputType);
-                // Move cursor to the end of the text
-                signupPassword.setSelection(signupPassword.getText().length());
-
-                // Change the visibility toggle icon
-                togglePassword.setImageResource(
-                        (inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) ?
-                                R.drawable.visible :
-                                R.drawable.hide
-                );
-            }
-        });
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-        btnUpload.setVisibility(View.GONE);
-        imageView.setVisibility(View.GONE);
-
-        uploadimage.setOnClickListener(new View.OnClickListener() {
+        btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SelectImage();
@@ -122,86 +89,26 @@ public class SigninActivity extends AppCompatActivity {
             }
         });
 
-        // Set up Firebase Database references
-        DatabaseReference countryReference = FirebaseDatabase.getInstance().getReference("country");
-        DatabaseReference cityReference = FirebaseDatabase.getInstance().getReference("city");
+        // Create ArrayAdapter using the string array and default spinner layout
+        ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.countries_array,  // Create an array resource in your "res/values/arrays.xml" file
+                android.R.layout.simple_spinner_dropdown_item
+        );
 
-        // Set up the listener for the countries
-        countryReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> countryList = new ArrayList<>();
+        ArrayAdapter<CharSequence> cityAdapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.cities_array,  // Create an array resource in your "res/values/arrays.xml" file
+                android.R.layout.simple_spinner_dropdown_item
+        );
 
-                for (DataSnapshot countrySnapshot : dataSnapshot.getChildren()) {
-                    String countryName = countrySnapshot.child("countryname").getValue(String.class);
-                    countryList.add(countryName);
-                }
+        // Specify the layout to use when the list of choices appears
+        countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(
-                        SigninActivity.this,
-                        android.R.layout.simple_spinner_dropdown_item,
-                        countryList
-                );
-
-                countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerCountry.setAdapter(countryAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(SigninActivity.this, "Failed to load countries", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Set up the listener for the selected country
-        spinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedCountryName = parentView.getItemAtPosition(position).toString();
-                String selectedCountryCode = getCountryCodeFromSelectedItem(selectedCountryName, spinnerCity);
-
-                // Query cities based on the selected country code
-                Query cityQuery = cityReference.orderByChild("countrycode").equalTo(selectedCountryCode);
-                cityQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<String> cityList = new ArrayList<>();
-
-                        for (DataSnapshot citySnapshot : dataSnapshot.getChildren()) {
-                            String cityName = citySnapshot.child("cityname").getValue(String.class);
-                            cityList.add(cityName);
-                        }
-
-                        ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(
-                                SigninActivity.this,
-                                android.R.layout.simple_spinner_dropdown_item,
-                                cityList
-                        );
-
-                        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinnerCity.setAdapter(cityAdapter);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(SigninActivity.this, "Failed to load cities", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing here
-            }
-        });
-
-//
-//        // Create ArrayAdapter using the string array and default spinner layout
-//        ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(
-//                this,
-//                R.array.countries_array,  // Create an array resource in your "res/values/arrays.xml" file
-//                android.R.layout.simple_spinner_dropdown_item
-//        );
+        // Apply the adapter to the spinner
+        spinnerCountry.setAdapter(countryAdapter);
+        spinnerCity.setAdapter(cityAdapter);
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,7 +150,7 @@ public class SigninActivity extends AppCompatActivity {
                 editor.apply();
 
                 SharedPreferences sharedPreferences = getSharedPreferences("imagedata", MODE_PRIVATE);
-                String imageurl = sharedPreferences.getString("image", "");
+                String imageUrl = sharedPreferences.getString("image", "");
 
                 // Generate a unique ID using push()
                 DatabaseReference userRef = reference.push();
@@ -252,7 +159,7 @@ public class SigninActivity extends AppCompatActivity {
                 // Get timestamp
                 String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
-                SigninModel helperClass = new SigninModel(name, email, username, password, phone, country, city, imageurl, timestamp, userId, aboutbio);
+                SigninModel helperClass = new SigninModel(name, email, username, password, phone, country, city, imageUrl, timestamp, userId, aboutbio);
                 reference.child(username).setValue(helperClass);
 
                 Toast.makeText(SigninActivity.this, "You have signup successfully!", Toast.LENGTH_SHORT).show();
@@ -304,8 +211,6 @@ public class SigninActivity extends AppCompatActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 imageView.setImageBitmap(bitmap);
-                imageView.setVisibility(View.VISIBLE);
-                btnUpload.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -328,18 +233,18 @@ public class SigninActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri downloadUri) {
                                     progressDialog.dismiss();
-                                    String imageurl = downloadUri.toString();
+                                    String imageUrl = downloadUri.toString();
 
                                     SharedPreferences sharedPreferences = getSharedPreferences("imagedata", MODE_PRIVATE);
                                     SharedPreferences.Editor editors = sharedPreferences.edit();
-                                    editors.putString("image", imageurl);
+                                    editors.putString("image", imageUrl);
                                     editors.apply();
 
                                     // Update the imageUrl field in SigninModel
-                                    updateImageUrlInModel(username, imageurl);
+                                    updateImageUrlInModel(username, imageUrl);
 
                                     // Save the imageUrl to the database directly
-                                    reference.child(username).child("imageurl").setValue(imageurl);
+                                    reference.child(username).child("imageUrl").setValue(imageUrl);
 
                                     Toast.makeText(SigninActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
                                 }
@@ -363,73 +268,8 @@ public class SigninActivity extends AppCompatActivity {
         }
     }
 
-    private void updateImageUrlInModel(String username, String imageurl) {
+    private void updateImageUrlInModel(String username, String imageUrl) {
         DatabaseReference userRef = reference.child(username);
-        userRef.child("imageurl").setValue(imageurl);
-    }
-
-    // Helper method to get the country code from the selected item in the spinnerCountry
-    private String getCountryCodeFromSelectedItem(String selectedCountryName, Spinner spinnerCity) {
-        DatabaseReference countryReference = FirebaseDatabase.getInstance().getReference("country");
-
-        // Query the country node to get the country code based on the selected country name
-        countryReference.orderByChild("countryname").equalTo(selectedCountryName)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot countrySnapshot : dataSnapshot.getChildren()) {
-                            String countryCode = countrySnapshot.child("countrycode").getValue(String.class);
-
-                            // Now that we have the country code, fetch and display cities for this country
-                            fetchAndDisplayCities(spinnerCity, countryCode);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Handle errors
-                    }
-                });
-
-        return selectedCountryName;  // Default return if the country code is not found (Handle this accordingly)
-    }
-
-    private void fetchAndDisplayCities(Spinner spinnerCity, String countryCode) {
-        DatabaseReference cityReference = FirebaseDatabase.getInstance().getReference("city");
-
-        // Query the city node to get cities with the matching country code
-        cityReference.orderByChild("countrycode").equalTo(countryCode)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<String> cityList = new ArrayList<>();
-
-                        // Iterate through each child of the "city" node
-                        for (DataSnapshot citySnapshot : dataSnapshot.getChildren()) {
-                            // Get the value of the "cityname" field and add it to the list
-                            String cityName = citySnapshot.child("cityname").getValue(String.class);
-                            cityList.add(cityName);
-                        }
-
-                        // Create ArrayAdapter using the fetched data
-                        ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(
-                                SigninActivity.this,
-                                android.R.layout.simple_spinner_dropdown_item,
-                                cityList
-                        );
-
-                        // Specify the layout to use when the list of choices appears
-                        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                        // Apply the adapter to the spinner
-                        spinnerCity.setAdapter(cityAdapter);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Handle errors
-                        Toast.makeText(SigninActivity.this, "Failed to load cities", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        userRef.child("imageUrl").setValue(imageUrl);
     }
 }

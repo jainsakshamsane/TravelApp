@@ -4,13 +4,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.travelapp.Models.CardModel;
 import com.travelapp.R;
 
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class DebitCardsAdapter extends RecyclerView.Adapter<DebitCardsAdapter.ViewHolder> {

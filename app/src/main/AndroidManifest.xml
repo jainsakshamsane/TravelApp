@@ -25,18 +25,19 @@
         </activity>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".MainActivity"/>
-<activity android:name=".PagerActivity"/>
+        <activity android:name=".PagerActivity"/>
         <activity android:name=".SigninActivity"/>
         <activity android:name=".Details_Activity"/>
         <activity android:name=".Month_fliter_Activity"/>
         <activity android:name=".Each_Month_Fliter_Activity"/>
         <activity android:name=".Discover_byPlace_Activity"/>
         <activity android:name=".Discover_Activity"/>
-    <activity android:name=".Chat_Activity"/>
-        <activity android:name=".EditProfileActivity"/>
-        <activity android:name=".UpcomingTourActivity"/>
-        <activity android:name=".PaymentMethodActivity"/>
-        <activity android:name=".SettingsActivity"/>
+        <activity android:name=".payment_activity"></activity>
+        <activity android:name=".By_Payment_Method_Activity"></activity>
+        <activity android:name=".Chat_Activity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".UpcomingTourActivity"></activity>
 
 
     </application>

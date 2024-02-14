@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.travelapp.Details_Activity;
-import com.travelapp.Models.PlaceModel;
 import com.travelapp.Models.PlacesModel;
 import com.travelapp.R;
 

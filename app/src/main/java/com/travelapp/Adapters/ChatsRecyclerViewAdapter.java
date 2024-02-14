@@ -10,8 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.travelapp.Chat_Activity;
-
 import com.travelapp.Models.User;
 import com.travelapp.R;
 
@@ -66,7 +70,6 @@ public class ChatsRecyclerViewAdapter extends RecyclerView.Adapter<ChatsRecycler
                         Log.e("Picasso", "Error loading image: " + e.getMessage());
                     }
                 });
-
         holder.specifiedperson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +81,7 @@ public class ChatsRecyclerViewAdapter extends RecyclerView.Adapter<ChatsRecycler
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

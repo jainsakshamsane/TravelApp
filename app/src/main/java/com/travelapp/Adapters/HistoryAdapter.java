@@ -1,29 +1,26 @@
 package com.travelapp.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
-import com.travelapp.Models.PlaceModel;
 import com.travelapp.Models.PlacesModel;
 import com.travelapp.R;
 
 import java.util.List;
 
-public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAdapter.ViewHolder> {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder>{
     private List<PlacesModel> placeModelList;
     private Context context;
 
-    public PaymentHistoryAdapter(Context context, List<PlacesModel> placeModelList) {
+    public HistoryAdapter(Context context, List<PlacesModel> placeModelList) {
         this.context = context;
         this.placeModelList = placeModelList;
     }

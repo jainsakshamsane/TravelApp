@@ -1,13 +1,13 @@
 package com.travelapp.Models;
 
-public class PaymentModel {
+public class TransactionModel {
     private String paymentId;
     private String userId;
     private String placeName;
     private int numberOfPeople;
     private String card_id;
 
-    public PaymentModel(String placename, String userId) {
+    public TransactionModel(String placename, String userId) {
         this.placeName = placename;
         this.userId = userId;
     }

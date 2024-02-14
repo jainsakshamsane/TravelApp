@@ -66,7 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
         linear9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SettingsActivity.this, PaymentMethodActivity.class);
+                Intent intent = new Intent(SettingsActivity.this, By_Payment_Method_Activity.class);
                 startActivity(intent);
             }
         });

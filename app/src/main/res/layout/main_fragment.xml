@@ -37,7 +37,7 @@
                     android:id="@+id/month"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/calenderrr"
+                    android:src="@drawable/baseline_calendar_month_24"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="10dp" />
 
@@ -129,7 +129,7 @@ android:layout_marginStart="10dp"
     <RelativeLayout
         android:id="@+id/first1111"
         android:layout_width="match_parent"
-        android:layout_height="203dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayoutWithSearch"
         android:padding="16dp">
 
@@ -150,9 +150,9 @@ android:layout_marginStart="10dp"
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView12"
             android:layout_width="wrap_content"
-            android:layout_height="134dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/ikikikxx"
-            android:layout_marginTop="-4dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="0dp"
              />
 
@@ -179,8 +179,8 @@ android:layout_marginStart="10dp"
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView122"
                 android:layout_width="wrap_content"
-                android:layout_height="134dp"
-                android:layout_marginTop="-4dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_below="@+id/ikikikxssx"
                 android:layout_marginEnd="0dp"
                />

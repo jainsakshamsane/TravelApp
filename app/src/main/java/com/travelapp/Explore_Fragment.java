@@ -125,7 +125,7 @@ public class Explore_Fragment extends Fragment {
                 exploreAdapter.notifyDataSetChanged();
 
                 // Show or hide the TextView based on whether places are found
-                 // Assuming rootView is the inflated view in onCreateView
+                // Assuming rootView is the inflated view in onCreateView
                 if (placesFound) {
                     noPlacesTextView.setVisibility(View.GONE); // Hide the TextView
                 } else {

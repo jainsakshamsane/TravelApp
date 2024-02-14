@@ -10,16 +10,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <!-- First TextView at the top -->
-        <TextView
-            android:id="@+id/textViewHeading1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Discover In"
-            android:textSize="24sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:gravity="center"
-            />
+<!--        <TextView-->
+<!--            android:id="@+id/textViewHeading1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Discover In"-->
+<!--            android:textSize="24sp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textStyle="bold"-->
+<!--            android:gravity="center"-->
+<!--            />-->
 
         <!-- Second TextView below the first -->
         <TextView

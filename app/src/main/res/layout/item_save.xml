@@ -46,32 +46,32 @@
             android:layout_marginTop="8dp"/>
 
         <!-- Two more TextViews horizontally -->
-        <!--        <TextView-->
-        <!--            android:id="@+id/NoofdaysTextview"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_below="@id/LocationTextview"-->
-        <!--            android:layout_marginTop="16dp"-->
+<!--        <TextView-->
+<!--            android:id="@+id/NoofdaysTextview"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/LocationTextview"-->
+<!--            android:layout_marginTop="16dp"-->
 
-        <!--            android:padding="5dp"-->
-        <!--            android:background="@drawable/rounded_bordertext"-->
-        <!--            android:text="TextView 3"-->
-        <!--            android:textColor="@color/black"-->
-        <!--            android:textSize="15dp" />-->
+<!--            android:padding="5dp"-->
+<!--            android:background="@drawable/rounded_bordertext"-->
+<!--            android:text="TextView 3"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="15dp" />-->
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/SeasonTextview"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="TextView 4"-->
-        <!--            android:background="@drawable/rounded_bordertext"-->
-        <!--            android:textColor="@color/black"-->
-        <!--            android:textSize="15dp"-->
-        <!--            android:padding="5dp"-->
+<!--        <TextView-->
+<!--            android:id="@+id/SeasonTextview"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="TextView 4"-->
+<!--            android:background="@drawable/rounded_bordertext"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="15dp"-->
+<!--            android:padding="5dp"-->
 
-        <!--            android:layout_toEndOf="@id/NoofdaysTextview"-->
-        <!--            android:layout_alignBaseline="@id/NoofdaysTextview"-->
-        <!--            android:layout_marginStart="8dp"/>-->
+<!--            android:layout_toEndOf="@id/NoofdaysTextview"-->
+<!--            android:layout_alignBaseline="@id/NoofdaysTextview"-->
+<!--            android:layout_marginStart="8dp"/>-->
     </RelativeLayout>
 
     <!-- Third part: One TextView -->

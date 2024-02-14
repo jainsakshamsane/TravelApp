@@ -20,6 +20,7 @@ public class User {
     String timestamp;
     String time;
     String text;
+
     public String getMonth() {
         return month;
     }

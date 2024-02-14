@@ -48,14 +48,14 @@ public class Discover_Activity extends AppCompatActivity {
         Winter.setOnClickListener(createOnClickListener(null, "Winter"));
         Spring.setOnClickListener(createOnClickListener(null, "Spring"));
 
-        leftIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start MainActivity to navigate back to Main_Fragment
-                Intent intent = new Intent(Discover_Activity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+//        leftIcon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Start MainActivity to navigate back to Main_Fragment
+//                Intent intent = new Intent(Discover_Activity.this, Main_Fragment.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private View.OnClickListener createOnClickListener(final String country, final String season) {
