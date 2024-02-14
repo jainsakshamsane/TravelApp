@@ -2,12 +2,14 @@ package com.travelapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,6 +81,15 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ExploreV
             nameTextView = itemView.findViewById(R.id.nametextView1);
             priceTextView = itemView.findViewById(R.id.textView3);
             informationTextView = itemView.findViewById(R.id.desceriptiontextView12);
+            informationTextView.setMaxLines(2);
+            informationTextView.setEllipsize(TextUtils.TruncateAt.END);
+            informationTextView.setText("Your long text goes here...");
+            informationTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(itemView.getContext(), informationTextView.getText(), Toast.LENGTH_LONG).show();
+                }
+            });
             locationTextView = itemView.findViewById(R.id.textView2);
             imageView = itemView.findViewById(R.id.backgroundImageView);
             totalLayout = itemView.findViewById(R.id.Totallayout);

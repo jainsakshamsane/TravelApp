@@ -1,7 +1,5 @@
 package com.travelapp;
 
-
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -34,7 +32,6 @@ public class payment_activity extends AppCompatActivity {
     String userId, placeName, numberOfPeople; // You need to retrieve these values from SharedPreferences
 
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

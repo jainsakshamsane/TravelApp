@@ -1,7 +1,5 @@
 package com.travelapp.Models;
 
-import java.util.List;
-
 public class CardModel {
     private String card_id;
     private String userid;

@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:gravity="center"
-    android:padding="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -22,7 +20,7 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="650dp"
+            android:layout_height="700dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
     <LinearLayout
@@ -34,15 +32,14 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
             android:id="@+id/previous"
-            android:layout_marginRight="30dp"
             android:src="@drawable/backo" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:layout_gravity="center"
             android:layout_height="55dp"
             android:background="@color/white"
@@ -52,9 +49,8 @@
             app:tabGravity="fill" />
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
             android:id="@+id/next"
             android:src="@drawable/fronto" />
     </LinearLayout>

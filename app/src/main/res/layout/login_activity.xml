@@ -52,13 +52,14 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:id="@+id/username"
+                android:padding="5dp"
                 android:layout_marginLeft="0dp"
                 android:textColor="@color/black"
                 android:background="@drawable/rectangle_signup"
                 android:textSize="18dp"
-                android:paddingLeft="10dp" />
+                android:paddingLeft="0dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -72,22 +73,14 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:id="@+id/password"
+                android:padding="5dp"
                 android:layout_marginLeft="0dp"
                 android:textColor="@color/black"
                 android:background="@drawable/rectangle_signup"
                 android:textSize="18dp"
-                android:inputType="textPassword"
-                android:paddingLeft="10dp" />
-
-            <ImageView
-                android:id="@+id/togglePassword"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginTop="-45dp"
-                android:layout_marginLeft="250dp"
-                android:src="@drawable/hide"/>
+                android:paddingLeft="0dp" />
 
         </LinearLayout>
 
@@ -100,11 +93,11 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:id="@+id/loginbutton"
                 android:textColor="@color/white"
                 android:layout_marginTop="50dp"
-                android:background="@drawable/upload_image"
+                android:background="@drawable/signup_button"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 android:gravity="center"

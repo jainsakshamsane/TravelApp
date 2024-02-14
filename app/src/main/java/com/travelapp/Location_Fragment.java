@@ -46,7 +46,6 @@ public class Location_Fragment extends Fragment {
     private ImageView userimage;
     TextView noPlacesTextView;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.location_fragment, container, false);
