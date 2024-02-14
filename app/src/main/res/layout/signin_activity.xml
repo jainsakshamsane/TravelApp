@@ -52,14 +52,13 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:id="@+id/name"
-                android:padding="5dp"
                 android:layout_marginLeft="0dp"
                 android:textColor="@color/black"
                 android:background="@drawable/rectangle_signup"
                 android:textSize="18dp"
-                android:paddingLeft="0dp" />
+                android:paddingLeft="10dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -71,17 +70,16 @@
                 android:textSize="18dp"
                 android:text="Username" />
 
-
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:id="@+id/username"
-                android:padding="5dp"
                 android:layout_marginLeft="0dp"
                 android:textColor="@color/black"
                 android:background="@drawable/rectangle_signup"
                 android:textSize="18dp"
-                android:paddingLeft="0dp" />
+                android:paddingLeft="10dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,15 +92,14 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:id="@+id/phone"
-                android:padding="5dp"
                 android:layout_marginLeft="0dp"
                 android:textColor="@color/black"
                 android:background="@drawable/rectangle_signup"
                 android:textSize="18dp"
                 android:inputType="number"
-                android:paddingLeft="0dp" />
+                android:paddingLeft="10dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -116,14 +113,13 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:id="@+id/email"
-                android:padding="5dp"
                 android:layout_marginLeft="0dp"
                 android:textColor="@color/black"
                 android:background="@drawable/rectangle_signup"
                 android:textSize="18dp"
-                android:paddingLeft="0dp" />
+                android:paddingLeft="10dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -137,14 +133,22 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:id="@+id/password"
-                android:padding="5dp"
                 android:layout_marginLeft="0dp"
                 android:textColor="@color/black"
                 android:background="@drawable/rectangle_signup"
                 android:textSize="18dp"
-                android:paddingLeft="0dp" />
+                android:inputType="textPassword"
+                android:paddingLeft="10dp" />
+
+            <ImageView
+                android:id="@+id/togglePassword"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="-45dp"
+                android:layout_marginLeft="250dp"
+                android:src="@drawable/hide"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -159,7 +163,7 @@
             <Spinner
                 android:id="@+id/spinnerCountry"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="0dp"
                 android:textColor="@color/black"
                 android:background="@drawable/rectangle_signup"
@@ -180,7 +184,7 @@
             <Spinner
                 android:id="@+id/spinnerCity"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="0dp"
                 android:textColor="@color/black"
                 android:background="@drawable/rectangle_signup"
@@ -200,20 +204,21 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="90dp"
                 android:id="@+id/bio"
-                android:padding="5dp"
                 android:layout_marginLeft="0dp"
                 android:textColor="@color/black"
                 android:background="@drawable/rectangle_signup"
                 android:textSize="18dp"
-                android:paddingLeft="0dp" />
+                android:paddingLeft="10dp" />
 
             <TextView
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
                 android:id="@+id/uploadimage"
-                android:textColor="#848884"
+                android:gravity="center"
+                android:background="@drawable/upload_image"
+                android:textColor="@color/white"
                 android:layout_marginTop="20dp"
                 android:textSize="18dp"
                 android:textStyle="bold"
@@ -225,17 +230,9 @@
             android:id="@+id/layout_button"
             android:orientation="horizontal"
             android:layout_below="@+id/linear2"
-            android:layout_marginTop="20dp"
             android:weightSum="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btnChoose"
-                android:text="Choose"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btnUpload"
@@ -256,15 +253,15 @@
                 android:id="@+id/imgView"
                 android:layout_below="@+id/layout_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="100dp" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:id="@+id/signupbutton"
                 android:textColor="@color/white"
                 android:layout_marginTop="50dp"
-                android:background="@drawable/signup_button"
+                android:background="@drawable/upload_image"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 android:gravity="center"
