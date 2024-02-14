@@ -2,6 +2,7 @@ package com.travelapp.Models;
 
 public class PlaceModel {
     private String id;
+    private String userId;
     private String best_place;
     private String name;
     private String city;
@@ -16,6 +17,23 @@ public class PlaceModel {
     String month;
     String service;
     String temprature;
+    String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getMonth() {
         return month;
