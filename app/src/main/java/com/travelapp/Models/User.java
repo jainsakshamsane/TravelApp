@@ -1,75 +1,63 @@
 package com.travelapp.Models;
 
 public class User {
+    private String id;
+    private String best_place;
     private String name;
+    private String city;
+    private String country;
+    private String date_start;
+    private String date_end;
     private String image;
-    String  email, username, password, phone, country, city, timestamp, userid, bio;
-
-
-    public User() {
-        // Empty constructor needed for Firebase
+    private String information;
+    private String no_of_days;
+    private String price;
+    private String season;
+    String month;
+    String service;
+    String temprature;
+    String senderid;
+    String timestamp;
+    String time;
+    String text;
+    public String getMonth() {
+        return month;
     }
 
-    public User(String name, String image) {
-        this.name = name;
-        this.image = image;
+    public void setMonth(String month) {
+        this.month = month;
     }
 
-    // Getters and setters
+    public String getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public String getTemprature() {
+        return temprature;
+    }
+
+    public void setTemprature(String temprature) {
+        this.temprature = temprature;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public String getCity() {
@@ -80,6 +68,86 @@ public class User {
         this.city = city;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getDate_start() {
+        return date_start;
+    }
+
+    public void setDate_start(String date_start) {
+        this.date_start = date_start;
+    }
+
+    public String getDate_end() {
+        return date_end;
+    }
+
+    public void setDate_end(String date_end) {
+        this.date_end = date_end;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public String getNo_of_days() {
+        return no_of_days;
+    }
+
+    public void setNo_of_days(String no_of_days) {
+        this.no_of_days = no_of_days;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getSeason() {
+        return season;
+    }
+
+    public void setSeason(String season) {
+        this.season = season;
+    }
+
+    public String getBest_place() {
+        return best_place;
+    }
+
+    public void setBest_place(String best_place) {
+        this.best_place = best_place;
+    }
+
+    public String getSenderid() {
+        return senderid;
+    }
+
+    public void setSenderid(String senderid) {
+        this.senderid = senderid;
+    }
+
     public String getTimestamp() {
         return timestamp;
     }
@@ -88,19 +156,19 @@ public class User {
         this.timestamp = timestamp;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getTime() {
+        return time;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public String getBio() {
-        return bio;
+    public String getText() {
+        return text;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setText(String text) {
+        this.text = text;
     }
 }

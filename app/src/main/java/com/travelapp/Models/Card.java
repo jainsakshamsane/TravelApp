@@ -1,7 +1,5 @@
 package com.travelapp.Models;
 
-import java.util.List;
-
 public class Card {
     private String card_id;
     private String userid;
@@ -9,12 +7,14 @@ public class Card {
     private String cvv;
     private String card_number;
     private String total_price;
+    private String people;
 
-    public Card(String cardnumber, String expirydate, String total_price, String userid) {
-        this.card_number = cardnumber;
-        this.expiry_date = expirydate;
-        this.total_price = total_price;
-        this.userid = userid;
+    public String getPeople() {
+        return people;
+    }
+
+    public void setPeople(String people) {
+        this.people = people;
     }
 
     public String getTotal_price() {
