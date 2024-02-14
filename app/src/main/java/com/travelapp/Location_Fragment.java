@@ -28,7 +28,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.travelapp.Adapters.LocationAdapter;
+import com.travelapp.Adapters.Save_Adapter;
 import com.travelapp.Models.Location;
+import com.travelapp.Models.PlaceModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +38,15 @@ import java.util.List;
 public class Location_Fragment extends Fragment {
     private RecyclerView locationRecyclerView;
     private LocationAdapter locationAdapter;
+    private Save_Adapter saveAdapter;
+    private RecyclerView recyclerView123;
     private List<Location> locationList;
     private EditText searchEditText;
     private List<Location> originalLocationList;
     private ImageView userimage;
     TextView noPlacesTextView;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.location_fragment, container, false);
@@ -58,7 +63,9 @@ public class Location_Fragment extends Fragment {
 
         searchEditText = rootView.findViewById(R.id.searchtext);
         setupSearchListener();
-
+        recyclerView123 = rootView.findViewById(R.id.recyclerView123);
+        recyclerView123.setLayoutManager(new LinearLayoutManager(getActivity()));
+        fetchSavedPlacesFromFirebase();
         // Fetch locations from Firebase
         String userCity = getUserCity();
         fetchLocationFromFirebase(userCity);
@@ -131,7 +138,40 @@ public class Location_Fragment extends Fragment {
             }
         });
     }
+    private void fetchSavedPlacesFromFirebase() {
+        // Get the current user ID
+        String userId = getCurrentUserId();
 
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("save");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<PlaceModel> savedPlaces = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    PlaceModel place = snapshot.getValue(PlaceModel.class);
+                    // Check if the place and userId are not null
+                    if (place != null && place.getUserId() != null && place.getUserId().equals(userId)) {
+                        savedPlaces.add(place);
+                    }
+                }
+                // Pass the saved places list to the adapter
+                saveAdapter = new Save_Adapter(getContext(), savedPlaces);
+                recyclerView123.setAdapter(saveAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("LocationFragment", "Error fetching saved places data from Firebase: " + databaseError.getMessage());
+            }
+        });
+    }
+
+
+    private String getCurrentUserId() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", MODE_PRIVATE);
+        return sharedPreferences.getString("userid", "");
+    }
 
     private String getUserCity() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
