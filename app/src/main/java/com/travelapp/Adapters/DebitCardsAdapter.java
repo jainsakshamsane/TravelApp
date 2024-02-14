@@ -24,7 +24,7 @@ import java.util.List;
 
 public class DebitCardsAdapter extends RecyclerView.Adapter<DebitCardsAdapter.ViewHolder> {
 
-    private List<CardModel> cardList;
+    private List<CardModel> cardList;             //actual change kuch nhi hua hai
     private Context context;
 
     public DebitCardsAdapter(List<CardModel> cardList, Context context) {
