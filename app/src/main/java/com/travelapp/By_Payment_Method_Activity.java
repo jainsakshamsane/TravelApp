@@ -22,11 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.travelapp.Adapters.DebitCardsAdapter;
-import com.travelapp.Adapters.PaymentHistoryAdapter;
+import com.travelapp.Adapters.HistoryAdapter;
 import com.travelapp.Models.CardModel;
-import com.travelapp.Models.PaymentModel;
 import com.travelapp.Models.PlaceModel;
 import com.travelapp.Models.PlacesModel;
+import com.travelapp.Models.TransactionModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,16 +40,16 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
     // Declare an ArrayList to store user names
     List<CardModel> cardList = new ArrayList<>();
 
-    PaymentHistoryAdapter paymentHistoryAdapter;
+    HistoryAdapter paymentHistoryAdapter;
     List<PlacesModel> placeModelList = new ArrayList<>();
-    List<PaymentModel> paymentList = new ArrayList<>();
+    List<TransactionModel> paymentList = new ArrayList<>();
 
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.paymentmethod_activity);
+        setContentView(R.layout.cardhistory_activity);
 
         back = findViewById(R.id.back);
         linear01 = findViewById(R.id.linear01);
@@ -59,11 +59,11 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
         linear5.setVisibility(View.GONE);
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(PaymentMethodActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(By_Payment_Method_Activity.this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setHasFixedSize(true);
 
         recyclerView12 = findViewById(R.id.recyclerView12);
-        recyclerView12.setLayoutManager(new LinearLayoutManager(PaymentMethodActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView12.setLayoutManager(new LinearLayoutManager(By_Payment_Method_Activity.this, LinearLayoutManager.VERTICAL, false));
         recyclerView12.setHasFixedSize(true);
 
         DatabaseReference cardsRef = FirebaseDatabase.getInstance().getReference("cards");
@@ -124,7 +124,7 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                                         editors.putString("name", userkaname);
                                         editors.apply();
                                     } else {
-                                        Toast.makeText(PaymentMethodActivity.this, "No Debit Cards found", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(By_Payment_Method_Activity.this, "No Debit Cards found", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
@@ -133,21 +133,21 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(PaymentMethodActivity.this, "Failed to retrieve payments", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(By_Payment_Method_Activity.this, "Failed to retrieve payments", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(PaymentMethodActivity.this, "Failed to retrieve cards", Toast.LENGTH_SHORT).show();
+                Toast.makeText(By_Payment_Method_Activity.this, "Failed to retrieve cards", Toast.LENGTH_SHORT).show();
             }
         });
 
         DatabaseReference paymentRef = FirebaseDatabase.getInstance().getReference("payments");
         DatabaseReference placeRef = FirebaseDatabase.getInstance().getReference("places");
 
-        paymentHistoryAdapter = new PaymentHistoryAdapter(this, placeModelList);
+        paymentHistoryAdapter = new HistoryAdapter(this, placeModelList);
 
         paymentRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -159,7 +159,7 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                     String userId = cardSnapshot.child("userId").getValue(String.class);
 
                     // Assuming you have a Payment class to represent the data
-                    PaymentModel payment = new PaymentModel(placename, userId);
+                    TransactionModel payment = new TransactionModel(placename, userId);
                     paymentList.add(payment);
                 }
 
@@ -167,7 +167,7 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                 placeRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot paymentsSnapshot) {
-                        for (PaymentModel payment : paymentList) {
+                        for (TransactionModel payment : paymentList) {
                             for (DataSnapshot placeSnapshot : paymentsSnapshot.getChildren()) {
                                 String nameofplace = placeSnapshot.child("name").getValue(String.class);
 
@@ -206,21 +206,21 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(PaymentMethodActivity.this, "Failed to retrieve payments", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(By_Payment_Method_Activity.this, "Failed to retrieve payments", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(PaymentMethodActivity.this, "Failed to retrieve places", Toast.LENGTH_SHORT).show();
+                Toast.makeText(By_Payment_Method_Activity.this, "Failed to retrieve places", Toast.LENGTH_SHORT).show();
             }
         });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PaymentMethodActivity.this, SettingsActivity.class);
+                Intent intent = new Intent(By_Payment_Method_Activity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });

@@ -23,12 +23,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.travelapp.Adapters.BestPlacesAdapter;
-import com.travelapp.Adapters.LocationAdapter;
-import com.travelapp.Adapters.PaymentHistoryAdapter;
+import com.travelapp.Adapters.HistoryAdapter;
 import com.travelapp.Adapters.UpcomingPlacesAdapter;
-import com.travelapp.Models.PaymentModel;
 import com.travelapp.Models.PlaceModel;
 import com.travelapp.Models.PlacesModel;
+import com.travelapp.Models.TransactionModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,8 +43,8 @@ public class UpcomingTourActivity extends AppCompatActivity {
     private RecyclerView locationRecyclerView;
     UpcomingPlacesAdapter adapter;
     List<PlacesModel> placeModelList = new ArrayList<>();
-    PaymentHistoryAdapter paymentHistoryAdapter;
-    List<PaymentModel> paymentList = new ArrayList<>();
+    HistoryAdapter paymentHistoryAdapter;
+    List<TransactionModel> paymentList = new ArrayList<>();
     TextView noPlacesTextView;
 
     @SuppressLint("MissingInflatedId")
@@ -111,7 +110,7 @@ public class UpcomingTourActivity extends AppCompatActivity {
         DatabaseReference placeRef = FirebaseDatabase.getInstance().getReference("places");
 
         adapter = new UpcomingPlacesAdapter(this, placeModelList);
-        paymentHistoryAdapter = new PaymentHistoryAdapter(this, placeModelList);
+        paymentHistoryAdapter = new HistoryAdapter(this, placeModelList);
 
         paymentRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -123,7 +122,7 @@ public class UpcomingTourActivity extends AppCompatActivity {
                     String userId = cardSnapshot.child("userId").getValue(String.class);
 
                     // Assuming you have a Payment class to represent the data
-                    PaymentModel payment = new PaymentModel(placename, userId);
+                    TransactionModel payment = new TransactionModel(placename, userId);
                     paymentList.add(payment);
                 }
 
@@ -131,7 +130,7 @@ public class UpcomingTourActivity extends AppCompatActivity {
                 placeRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot paymentsSnapshot) {
-                        for (PaymentModel payment : paymentList) {
+                        for (TransactionModel payment : paymentList) {
                             for (DataSnapshot placeSnapshot : paymentsSnapshot.getChildren()) {
                                 String nameofplace = placeSnapshot.child("name").getValue(String.class);
 

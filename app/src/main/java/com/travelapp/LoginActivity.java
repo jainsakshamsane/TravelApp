@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,28 @@ public class LoginActivity extends AppCompatActivity {
         loginpassword = findViewById(R.id.password);
         loginbutton = findViewById(R.id.loginbutton);
         registertext = findViewById(R.id.newuser);
+        ImageView togglePassword = findViewById(R.id.togglePassword);
+
+        togglePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Toggle password visibility
+                int inputType = (loginpassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) ?
+                        InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD :
+                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
+
+                loginpassword.setInputType(inputType);
+                // Move cursor to the end of the text
+                loginpassword.setSelection(loginpassword.getText().length());
+
+                // Change the visibility toggle icon
+                togglePassword.setImageResource(
+                        (inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) ?
+                                R.drawable.visible :
+                                R.drawable.hide
+                );
+            }
+        });
 
         registertext.setOnClickListener(new View.OnClickListener() {
             @Override
