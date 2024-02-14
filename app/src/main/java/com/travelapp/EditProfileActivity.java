@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,8 +23,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -31,11 +36,14 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class EditProfileActivity extends AppCompatActivity {
 
     ImageView back, profileimage;
+    TextView seecountry, seecity;
     EditText edit_name, edit_email, edit_password, edit_phone, edit_bio;
     TextView savechanges;
 
@@ -59,6 +67,9 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editprofile_activity);
 
+        spinnerCountry = findViewById(R.id.spinnerCountry);
+        spinnerCity = findViewById(R.id.spinnerCity);
+
         database = FirebaseDatabase.getInstance();
         reference = FirebaseDatabase.getInstance().getReference("users");
 
@@ -72,6 +83,8 @@ public class EditProfileActivity extends AppCompatActivity {
         profileimage = findViewById(R.id.profileimage);
         btnUpload = findViewById(R.id.btnUpload);
         imageView = findViewById(R.id.imgView);
+        seecountry = findViewById(R.id.seecountry);
+        seecity = findViewById(R.id.seecity);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -102,8 +115,79 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
 
-        spinnerCountry = findViewById(R.id.spinnerCountry);
-        spinnerCity = findViewById(R.id.spinnerCity);
+
+        // Set up Firebase Database references
+        DatabaseReference countryReference = FirebaseDatabase.getInstance().getReference("country");
+        DatabaseReference cityReference = FirebaseDatabase.getInstance().getReference("city");
+
+        // Set up the listener for the countries
+        countryReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> countryList = new ArrayList<>();
+
+                for (DataSnapshot countrySnapshot : dataSnapshot.getChildren()) {
+                    String countryName = countrySnapshot.child("countryname").getValue(String.class);
+                    countryList.add(countryName);
+                }
+
+                ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(
+                        EditProfileActivity.this,
+                        android.R.layout.simple_spinner_dropdown_item,
+                        countryList
+                );
+
+                countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerCountry.setAdapter(countryAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(EditProfileActivity.this, "Failed to load countries", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Set up the listener for the selected country
+        spinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedCountryName = parentView.getItemAtPosition(position).toString();
+                String selectedCountryCode = getCountryCodeFromSelectedItem(selectedCountryName, spinnerCity);
+
+                // Query cities based on the selected country code
+                Query cityQuery = cityReference.orderByChild("countrycode").equalTo(selectedCountryCode);
+                cityQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<String> cityList = new ArrayList<>();
+
+                        for (DataSnapshot citySnapshot : dataSnapshot.getChildren()) {
+                            String cityName = citySnapshot.child("cityname").getValue(String.class);
+                            cityList.add(cityName);
+                        }
+
+                        ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(
+                                EditProfileActivity.this,
+                                android.R.layout.simple_spinner_dropdown_item,
+                                cityList
+                        );
+
+                        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinnerCity.setAdapter(cityAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(EditProfileActivity.this, "Failed to load cities", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here
+            }
+        });
 
         // Create ArrayAdapter using the string array and default spinner layout
         ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(
@@ -143,6 +227,8 @@ public class EditProfileActivity extends AppCompatActivity {
         edit_email.setText(email);
         edit_password.setText(password);
         edit_bio.setText(aboutbio);
+        seecountry.setText(country);
+        seecity.setText(city);
         Picasso.get().load(imageUrl).into(profileimage);
         // Find the index of the country and city in their respective arrays
         int countryIndex = ((ArrayAdapter<String>) spinnerCountry.getAdapter()).getPosition(country);
@@ -419,5 +505,69 @@ public class EditProfileActivity extends AppCompatActivity {
         SharedPreferences.Editor editors = sharedPreferencess.edit();
         editors.putString(key, value);
         editors.apply();
+    }
+    // Helper method to get the country code from the selected item in the spinnerCountry
+    private String getCountryCodeFromSelectedItem(String selectedCountryName, Spinner spinnerCity) {
+        DatabaseReference countryReference = FirebaseDatabase.getInstance().getReference("country");
+
+        // Query the country node to get the country code based on the selected country name
+        countryReference.orderByChild("countryname").equalTo(selectedCountryName)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot countrySnapshot : dataSnapshot.getChildren()) {
+                            String countryCode = countrySnapshot.child("countrycode").getValue(String.class);
+
+                            // Now that we have the country code, fetch and display cities for this country
+                            fetchAndDisplayCities(spinnerCity, countryCode);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle errors
+                    }
+                });
+
+        return selectedCountryName;  // Default return if the country code is not found (Handle this accordingly)
+    }
+
+    private void fetchAndDisplayCities(Spinner spinnerCity, String countryCode) {
+        DatabaseReference cityReference = FirebaseDatabase.getInstance().getReference("city");
+
+        // Query the city node to get cities with the matching country code
+        cityReference.orderByChild("countrycode").equalTo(countryCode)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<String> cityList = new ArrayList<>();
+
+                        // Iterate through each child of the "city" node
+                        for (DataSnapshot citySnapshot : dataSnapshot.getChildren()) {
+                            // Get the value of the "cityname" field and add it to the list
+                            String cityName = citySnapshot.child("cityname").getValue(String.class);
+                            cityList.add(cityName);
+                        }
+
+                        // Create ArrayAdapter using the fetched data
+                        ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(
+                                EditProfileActivity.this,
+                                android.R.layout.simple_spinner_dropdown_item,
+                                cityList
+                        );
+
+                        // Specify the layout to use when the list of choices appears
+                        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        // Apply the adapter to the spinner
+                        spinnerCity.setAdapter(cityAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle errors
+                        Toast.makeText(EditProfileActivity.this, "Failed to load cities", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
