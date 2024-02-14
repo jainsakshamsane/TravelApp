@@ -4,12 +4,16 @@ public class Payment {
     private String paymentId;
     private String userId;
     private String placeName;
-    private int numberOfPeople;
+    private String numberOfPeople;
     private String card_id;
+    private String time;
 
-    public Payment(String placename, String userId) {
-        this.placeName = placename;
-        this.userId = userId;
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getCard_id() {
@@ -44,11 +48,11 @@ public class Payment {
         this.placeName = placeName;
     }
 
-    public int getNumberOfPeople() {
+    public String getNumberOfPeople() {
         return numberOfPeople;
     }
 
-    public void setNumberOfPeople(int numberOfPeople) {
+    public void setNumberOfPeople(String numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
     }
 
