@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/rounded_bordertextwhole"
+    android:layout_margin="10dp"
+    android:id="@+id/Totallayout"
+    android:layout_height="wrap_content"
+    >
+
+    <!-- First part: ImageView -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:padding="5dp"
+        android:src="@drawable/shipp"
+
+
+        />
+
+    <!-- Second part: Nested RelativeLayout for TextViews -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/firsttt"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp">
+
+        <!-- Two TextViews vertically -->
+        <TextView
+            android:id="@+id/NameTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView 1"
+            android:textSize="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/LocationTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView 2"
+            android:textSize="15dp"
+            android:drawableStart="@drawable/baseline_location_on_24"
+            android:textColor="#dddddd"
+            android:layout_below="@id/NameTextview"
+            android:layout_marginTop="8dp"/>
+
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/SeasonTextview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firsttt"
+        android:layout_marginStart="8dp"
+        android:padding="5dp"
+        android:text="TextView 4"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="15dp" />
+
+
+</RelativeLayout>

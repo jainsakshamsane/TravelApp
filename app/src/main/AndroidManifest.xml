@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/bg"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/bg"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TravelApp"
+        tools:targetApi="31">
+        <activity
+            android:name=".FlashScreenActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TravelApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".MainActivity"/>
+<activity android:name=".PagerActivity"/>
+        <activity android:name=".SigninActivity"/>
+        <activity android:name=".Details_Activity"/>
+        <activity android:name=".Month_fliter_Activity"/>
+        <activity android:name=".Each_Month_Fliter_Activity"/>
+        <activity android:name=".Discover_byPlace_Activity"/>
+        <activity android:name=".Discover_Activity"/>
+    <activity android:name=".Chat_Activity"/>
+        <activity android:name=".EditProfileActivity"/>
+        <activity android:name=".UpcomingTourActivity"/>
+        <activity android:name=".PaymentMethodActivity"/>
+        <activity android:name=".SettingsActivity"/>
+
+
+    </application>
+
+</manifest>

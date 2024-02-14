@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/first"
+        android:layout_width="match_parent"
+        android:padding="16dp"
+
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/layout0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/menuuuu"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="10dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Explore"
+                    android:layout_marginLeft="70dp"
+                    android:textColor="@color/black"
+                    android:textSize="30sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/userimage"
+
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/authorrr"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ImagesrecyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="134dp"
+        android:layout_below="@+id/first"
+        android:layout_marginTop="-4dp"
+        android:layout_marginEnd="0dp"
+        />
+    <RelativeLayout
+        android:id="@+id/first1111"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ImagesrecyclerView"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/ikikikxx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="My Location"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
+    </RelativeLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/exploreplacesrecycelrview"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:layout_below="@+id/first1111"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="0dp"
+        />
+
+
+    <TextView
+        android:id="@+id/noPlacesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/first1111"
+        android:layout_gravity="center"
+        android:layout_marginTop="124dp"
+        android:text="Oops! No places found for your location."
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:layout_marginStart="40dp"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

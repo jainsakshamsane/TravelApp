@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/first1111"
+    android:id="@+id/Totallayout"
+
+    android:layout_margin="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- CardView to wrap the ImageView with rounded corners -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"> <!-- Set elevation to 0dp to prevent shadow -->
+
+        <!-- ImageView for the background image -->
+        <ImageView
+            android:id="@+id/backgroundImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/shipp"
+            android:scaleType="centerCrop" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- First TextView with elevation -->
+    <TextView
+        android:id="@+id/nametextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView 1"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="146dp"
+        android:elevation="8dp"
+        android:padding="16dp"/>
+
+    <TextView
+        android:id="@+id/desceriptiontextView12"
+        android:layout_width="374dp"
+        android:layout_height="96dp"
+        android:layout_below="@+id/nametextView1"
+        android:layout_marginStart="16dp"
+        android:elevation="8dp"
+        android:padding="16dp"
+        android:text="TextView 1"
+        android:textColor="@color/white" />
+
+    <!-- Second TextView with elevation -->
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView 2"
+        android:layout_below="@id/desceriptiontextView12"
+        android:textColor="@color/white"
+        android:drawableStart="@drawable/baseline_location_on_242"
+        android:layout_alignStart="@id/desceriptiontextView12"
+        android:layout_marginTop="8dp"
+        android:elevation="8dp"
+        android:padding="16dp"/>
+
+    <!-- Third TextView with elevation, aligned to the top-right corner -->
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView 3"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="296dp"
+        android:textColor="@color/white"
+        android:background="#FF5F1F"
+        android:drawableStart="@drawable/rupeesymbol"
+        android:elevation="8dp"
+        android:padding="16dp"/>
+</RelativeLayout>

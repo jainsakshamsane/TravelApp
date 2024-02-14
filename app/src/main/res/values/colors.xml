@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="orange">#FF5F1F</color>
+    <color name="custom_seekbar_progress_color">#FF5F1F</color>
+    <color name="custom_seekbar_thumb_color">#000000</color>
+</resources>

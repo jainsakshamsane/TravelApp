@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <!-- Add any other views or layouts above the ViewPager and TabLayout if needed -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linear1"
+        android:orientation="vertical">
+
+        <!-- Add your views inside the RelativeLayout -->
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="650dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linear2"
+        android:gravity="center"
+        android:layout_below="@+id/linear1"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/previous"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/backo" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="150dp"
+            android:layout_gravity="center"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:backgroundTint="@color/white"
+            android:layout_below="@id/view_pager"
+            app:tabMode="fixed"
+            app:tabGravity="fill" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/next"
+            android:src="@drawable/fronto" />
+    </LinearLayout>
+
+    <!-- Add any other views or layouts below the ViewPager and TabLayout if needed -->
+
+</RelativeLayout>

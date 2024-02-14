@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/values/arrays.xml -->
+
+<resources>
+    <!-- Array of countries -->
+    <string-array name="countries_array">
+        <item>Select Country</item>
+        <item>India</item>
+        <item>Pakistan</item>
+        <item>Germany</item>
+        <item>Australia</item>
+        <item>America</item>
+        <item>Brazil</item>
+        <item>South Africa</item>
+        <item>Srilanka</item>
+        <item>West Indies</item>
+        <item>Romania</item>
+        <!-- Add more country names as needed -->
+    </string-array>
+
+    <!-- Array of cities (replace with actual city names) -->
+    <string-array name="cities_array">
+        <item>Select City</item>
+        <item>Agra</item>
+        <item>Mathura</item>
+        <item>New Delhi</item>
+        <item>Hathras</item>
+        <item>Bangalore</item>
+        <item>Hyderabad</item>
+        <item>Chennai</item>
+        <item>Bhopal</item>
+        <item>Gurugram</item>
+        <item>Noida</item>
+        <!-- Add more city names as needed -->
+    </string-array>
+</resources>

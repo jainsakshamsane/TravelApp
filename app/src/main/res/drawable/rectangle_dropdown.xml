@@ -1,0 +1,18 @@
+<!-- res/drawable/rounded_rectangle_with_image.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background shape -->
+    <item>
+        <shape>
+            <solid android:color="@color/white" />
+            <stroke
+                android:width="2dp"
+                android:color="#E5E4E2" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- Image on top of the background shape -->
+    <item android:right="16dp" android:gravity="end|center_vertical">
+        <bitmap android:src="@drawable/baseline_expand_circle_down_24" />
+    </item>
+</layer-list>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomSeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:thumb">@drawable/custom_seekbar_thumb</item>
+        <item name="android:progressTint">@color/custom_seekbar_progress_color</item>
+    </style>
+</resources>

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!-- Heading TextView -->
+    <TextView
+        android:id="@+id/headingTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Month"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"
+        />
+
+    <!-- Left Icon -->
+    <ImageView
+        android:id="@+id/leftIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_chevron_left_24"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Right Icon -->
+<!--    <ImageView-->
+<!--        android:id="@+id/rightIcon"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/baseline_chevron_left_24"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginTop="16dp"/>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/headingTextView"
+        android:layout_margin="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="Jan"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+
+                android:gravity="center"
+
+                android:background="@drawable/selected_backround"/>
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="Feb"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/selected_backround"
+                android:layout_marginStart="56dp"/> <!-- Add margin between the two TextViews -->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="March"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:gravity="center"
+
+                android:background="@drawable/selected_backround"/>
+
+            <TextView
+                android:id="@+id/text4"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="April"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/selected_backround"
+                android:layout_marginStart="56dp"/> <!-- Add margin between the two TextViews -->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/text5"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="May"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/selected_backround"/>
+
+            <TextView
+                android:id="@+id/text6"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="June"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/selected_backround"
+                android:layout_marginStart="56dp"/> <!-- Add margin between the two TextViews -->
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/text7"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="July"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/selected_backround"/>
+
+            <TextView
+                android:id="@+id/text8"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="August"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/selected_backround"
+                android:layout_marginStart="56dp"/> <!-- Add margin between the two TextViews -->
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/text9"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="Sep"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/selected_backround"/>
+
+            <TextView
+                android:id="@+id/text10"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="Oct"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/selected_backround"
+                android:layout_marginStart="56dp"/> <!-- Add margin between the two TextViews -->
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/text11"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="Nov"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/selected_backround"/>
+
+            <TextView
+                android:id="@+id/text12"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="Dec"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/selected_backround"
+                android:layout_marginStart="56dp"/> <!-- Add margin between the two TextViews -->
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

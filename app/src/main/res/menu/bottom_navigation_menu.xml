@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_item_1"
+        android:title=""
+        android:icon="@drawable/bottom1" />
+    <item
+        android:id="@+id/nav_item_2"
+        android:title=""
+        android:icon="@drawable/baseline_explore_24" />
+    <item
+        android:id="@+id/nav_item_3"
+        android:title=""
+
+        android:icon="@drawable/chattt" />
+    <item
+        android:id="@+id/nav_item_4"
+        android:title=""
+        android:icon="@drawable/baseline_location_on_24" />
+    <item
+        android:id="@+id/nav_item_5"
+        android:title=""
+        android:icon="@drawable/baseline_person_24" />
+</menu>

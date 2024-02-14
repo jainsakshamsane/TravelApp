@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Add your ImageView and TextView here -->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/back"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_chevron_left_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="Profile"
+                android:layout_marginLeft="95dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textSize="25dp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="110dp"
+                android:id="@+id/settings"
+                android:layout_gravity="center"
+                android:src="@drawable/settingss" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bglayout"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/linear1"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/rectangle_profile"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Add your ImageView and TextView here -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/cover" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/firstLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/bglayout"
+            android:layout_marginTop="-45dp"
+            android:layout_marginLeft="-10dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Add your ImageView and TextView here -->
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:id="@+id/profilephoto"
+                android:src="@drawable/bgggg" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:id="@+id/editprofile"
+                android:text="Edit Profile"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="70dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@drawable/upload_image"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_below="@id/firstLinearLayout"
+            android:id="@+id/secondLinearLayout"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                android:id="@+id/name"
+                android:textSize="25dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bio"
+                android:layout_marginTop="10dp"
+                android:id="@+id/bio"
+                android:textSize="16dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_below="@id/secondLinearLayout"
+            android:id="@+id/linear4"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:drawableLeft="@drawable/baseline_location_on_24"
+                android:id="@+id/location"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bio"
+                android:drawableLeft="@drawable/baseline_calendar_month_24"
+                android:id="@+id/timestamp"
+                android:textSize="16dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear3"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/linear4"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView1"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
