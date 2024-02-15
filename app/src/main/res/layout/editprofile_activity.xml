@@ -234,7 +234,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linear08"
+            android:id="@+id/linear9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/linear8"
@@ -246,63 +246,7 @@
                 android:gravity="center"
                 android:layout_marginTop="40dp"
                 android:textSize="15dp"
-                android:text="Current Country*"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/seecountry"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rectangle_settings"
-                android:textSize="20dp"
-                android:hint="Current Country" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear008"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/linear08"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_marginTop="40dp"
-                android:textSize="15dp"
-                android:text="Current City*"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/seecity"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rectangle_settings"
-                android:textSize="20dp"
-                android:hint="Current City" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/linear008"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_marginTop="40dp"
-                android:textSize="15dp"
-                android:text="Change Country"
+                android:text="Country"
                 android:textAlignment="center" />
 
             <Spinner
@@ -330,7 +274,7 @@
                 android:gravity="center"
                 android:layout_marginTop="40dp"
                 android:textSize="15dp"
-                android:text="Change City"
+                android:text="City"
                 android:textAlignment="center" />
 
             <Spinner

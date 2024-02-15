@@ -43,7 +43,6 @@ import java.util.UUID;
 public class EditProfileActivity extends AppCompatActivity {
 
     ImageView back, profileimage;
-    TextView seecountry, seecity;
     EditText edit_name, edit_email, edit_password, edit_phone, edit_bio;
     TextView savechanges;
 
@@ -83,8 +82,6 @@ public class EditProfileActivity extends AppCompatActivity {
         profileimage = findViewById(R.id.profileimage);
         btnUpload = findViewById(R.id.btnUpload);
         imageView = findViewById(R.id.imgView);
-        seecountry = findViewById(R.id.seecountry);
-        seecity = findViewById(R.id.seecity);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -125,10 +122,16 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<String> countryList = new ArrayList<>();
+                int selectedCountryIndex = -1;
 
                 for (DataSnapshot countrySnapshot : dataSnapshot.getChildren()) {
                     String countryName = countrySnapshot.child("countryname").getValue(String.class);
                     countryList.add(countryName);
+
+                    // Check if the fetched country matches the one from SharedPreferences
+                    if (country.equals(countryName)) {
+                        selectedCountryIndex = countryList.size() - 1;
+                    }
                 }
 
                 ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(
@@ -139,6 +142,10 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCountry.setAdapter(countryAdapter);
+                // If a match is found, set the selection in the spinner
+                if (selectedCountryIndex != -1) {
+                    spinnerCountry.setSelection(selectedCountryIndex);
+                }
             }
 
             @Override
@@ -227,8 +234,6 @@ public class EditProfileActivity extends AppCompatActivity {
         edit_email.setText(email);
         edit_password.setText(password);
         edit_bio.setText(aboutbio);
-        seecountry.setText(country);
-        seecity.setText(city);
         Picasso.get().load(imageUrl).into(profileimage);
         // Find the index of the country and city in their respective arrays
         int countryIndex = ((ArrayAdapter<String>) spinnerCountry.getAdapter()).getPosition(country);
@@ -278,9 +283,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         // Update Country
         updateCountry();
-
-        // Update Image
-        updateImageUrl();
 
         // Update Image
         updateImageUrl();
@@ -541,12 +543,17 @@ public class EditProfileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         List<String> cityList = new ArrayList<>();
+                        int selectedCityIndex = -1;
 
                         // Iterate through each child of the "city" node
                         for (DataSnapshot citySnapshot : dataSnapshot.getChildren()) {
                             // Get the value of the "cityname" field and add it to the list
                             String cityName = citySnapshot.child("cityname").getValue(String.class);
                             cityList.add(cityName);
+                            // Check if the fetched country matches the one from SharedPreferences
+                            if (city.equals(cityName)) {
+                                selectedCityIndex = cityList.size() - 1;
+                            }
                         }
 
                         // Create ArrayAdapter using the fetched data
@@ -561,6 +568,10 @@ public class EditProfileActivity extends AppCompatActivity {
 
                         // Apply the adapter to the spinner
                         spinnerCity.setAdapter(cityAdapter);
+                        // If a match is found, set the selection in the spinner
+                        if (selectedCityIndex != -1) {
+                            spinnerCity.setSelection(selectedCityIndex);
+                        }
                     }
 
                     @Override

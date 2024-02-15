@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@drawable/rectangle_settings"
-    android:layout_margin="10dp"
+    android:layout_marginBottom="10dp"
     android:id="@+id/Totallayout"
     android:layout_height="wrap_content"
     tools:ignore="MissingDefaultResource">
@@ -36,9 +36,9 @@
 
         <TextView
             android:id="@+id/price"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
+            android:layout_marginStart="120dp"
             android:padding="5dp"
             android:text="TextView 4"
             android:layout_marginTop="10dp"
@@ -60,7 +60,7 @@
             android:id="@+id/chat"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="190dp"
+            android:layout_marginLeft="160dp"
             android:layout_below="@id/price"
             android:src="@drawable/chat"
             android:layout_marginTop="0dp"/>

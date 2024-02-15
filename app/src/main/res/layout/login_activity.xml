@@ -109,7 +109,7 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textAlignment="center"
-                android:text="SIGN UP"/>
+                android:text="SIGN IN"/>
         </LinearLayout>
 
         <LinearLayout

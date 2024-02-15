@@ -6,10 +6,25 @@ public class TransactionModel {
     private String placeName;
     private int numberOfPeople;
     private String card_id;
+    private String date;
 
     public TransactionModel(String placename, String userId) {
         this.placeName = placename;
         this.userId = userId;
+    }
+
+    public TransactionModel(String placename, String userId, String date) {
+        this.placeName = placename;
+        this.userId = userId;
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getCard_id() {
