@@ -115,10 +115,14 @@ public class Location_Fragment extends Fragment {
                 boolean locationsFound = false;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Location location = snapshot.getValue(Location.class);
-                    if (location.getCity().equals(userCity)) {
-                        locationList.add(location);
-                        originalLocationList.add(location); // Update original list
-                        locationsFound = true;
+                    if (location != null) {
+                        String placeCity = location.getCity();
+                        Log.d("LocationFragment", "City from Firebase: " + placeCity); // Log the city name from Firebase
+                        if (placeCity != null && placeCity.trim().equalsIgnoreCase(userCity.trim())) {
+                            locationList.add(location);
+                            originalLocationList.add(location); // Update original list
+                            locationsFound = true;
+                        }
                     }
                 }
                 locationAdapter.notifyDataSetChanged();
@@ -129,6 +133,9 @@ public class Location_Fragment extends Fragment {
                 } else {
                     noPlacesTextView.setVisibility(View.VISIBLE); // Show the TextView
                 }
+
+                // Log the count of matching locations
+                Log.d("LocationFragment", "Number of matching locations: " + locationList.size());
             }
 
             @Override
@@ -136,6 +143,7 @@ public class Location_Fragment extends Fragment {
                 Log.e("LocationFragment", "Error fetching location data from Firebase: " + databaseError.getMessage());
             }
         });
+
     }
     private void fetchSavedPlacesFromFirebase() {
         // Get the current user ID
