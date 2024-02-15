@@ -191,3 +191,5 @@ public class Main_Fragment extends Fragment {
         bestPlacesAdapter.updateList(originalBestPlaceList); // Update bestPlacesAdapter with original list of best places
     }
 }
+
+
