@@ -31,6 +31,7 @@ import com.travelapp.Models.TransactionModel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -161,9 +162,10 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                 for (DataSnapshot cardSnapshot : cardsSnapshot.getChildren()) {
                     String placename = cardSnapshot.child("placeName").getValue(String.class);
                     String userId = cardSnapshot.child("userId").getValue(String.class);
+                    String date = cardSnapshot.child("time").getValue(String.class);
 
                     // Assuming you have a Payment class to represent the data
-                    TransactionModel payment = new TransactionModel(placename, userId);
+                    TransactionModel payment = new TransactionModel(placename, userId, date);
                     paymentList.add(payment);
                 }
 
@@ -183,16 +185,13 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                                     // Proceed to check the placeName condition
                                     if (payment.getPlaceName().equals(nameofplace)) {
                                         // Example: Fetch placeName from payments
-                                        String placename = placeSnapshot.child("name").getValue(String.class);
-                                        String city = placeSnapshot.child("city").getValue(String.class);
-                                        String country = placeSnapshot.child("country").getValue(String.class);
-                                        String price = placeSnapshot.child("price").getValue(String.class);
-                                        String image = placeSnapshot.child("image").getValue(String.class);
-                                        String startdate = placeSnapshot.child("date_start").getValue(String.class);
-                                        Log.d("PlaceMethodActivity", "Linked Data - UserId: " + payment.getPlaceName() + ", Name: " + placename + city + country + price);
+                                            String placename = placeSnapshot.child("name").getValue(String.class);
+                                            String city = placeSnapshot.child("city").getValue(String.class);
+                                            String country = placeSnapshot.child("country").getValue(String.class);
+                                            String price = placeSnapshot.child("price").getValue(String.class);
+                                            String image = placeSnapshot.child("image").getValue(String.class);
+                                            Log.d("PlaceMethodActivity", "Linked Data - UserId: " + payment.getPlaceName() + ", Name: " + placename + city + country + price);
 
-                                        // Compare the start date with today's date
-                                        if (isStartDateGreaterThanToday(startdate)) {
                                             PlacesModel placeModel = new PlacesModel(placename, city, country, price, image);
                                             placeModelList.add(placeModel);
 
@@ -200,7 +199,6 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                                             recyclerView12.setAdapter(paymentHistoryAdapter);
                                             recyclerView12.setVisibility(View.VISIBLE);
                                             linear5.setVisibility(View.GONE);
-                                        }
                                     }
                                 } else {
                                     recyclerView12.setVisibility(View.GONE);
@@ -234,16 +232,25 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
         });
     }
 
-    // Function to check if the start date is greater than today
-    private boolean isStartDateGreaterThanToday(String startDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        Date currentDate = new Date();
-        try {
-            Date startDateObject = dateFormat.parse(startDate);
-            return startDateObject != null && startDateObject.after(currentDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return false;
+    private String extractDate(String dateTime) {
+        if (dateTime != null) {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy - HH:mm", Locale.getDefault());
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+
+            try {
+                Date date = inputFormat.parse(dateTime);
+                return outputFormat.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return ""; // Handle the parsing error according to your needs
+            }
+        } else {
+            return ""; // or some default value if dateTime is null
         }
+    }
+
+    private String getCurrentDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        return dateFormat.format(new Date());
     }
 }

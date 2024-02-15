@@ -82,7 +82,7 @@
             android:gravity="center"
             android:background="@drawable/rectangle_card"
             android:orientation="horizontal"
-            android:layout_marginTop="30dp" >
+            android:layout_marginTop="10dp" >
 
             <ImageView
                 android:layout_width="100dp"
@@ -136,7 +136,7 @@
             android:layout_height="400dp"
             android:layout_below="@+id/linear4"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
             />
 
