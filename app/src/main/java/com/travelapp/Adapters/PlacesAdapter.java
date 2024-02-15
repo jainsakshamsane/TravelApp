@@ -27,6 +27,9 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
         this.context = context;
         this.places = places;
     }
+    public interface OnItemClickListener {
+        void onItemClick(PlaceModel place);
+    }
 
     public void updateList(List<PlaceModel> filteredList) {
         places = filteredList;
