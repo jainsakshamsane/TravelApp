@@ -4,87 +4,82 @@
     android:layout_margin="10dp"
     android:id="@+id/Totallayout"
     android:layout_height="wrap_content"
+
     >
 
-    <!-- First part: ImageView -->
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/shipp"
-
-
-        />
-
-    <!-- Second part: Nested RelativeLayout for TextViews -->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/imageView"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp">
 
-        <!-- Two TextViews vertically -->
-        <TextView
-            android:id="@+id/NameTextview"
-            android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:orientation="horizontal">
+        <!-- First part: ImageView -->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:src="@drawable/shipp" />
+        <!-- Second part: Nested RelativeLayout for TextViews -->
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView 1"
-            android:textSize="20dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="16dp"/>
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
 
-        <TextView
-            android:id="@+id/LocationTextview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView 2"
-            android:textSize="15dp"
-            android:drawableStart="@drawable/baseline_location_on_24"
-            android:textColor="#dddddd"
-            android:layout_below="@id/NameTextview"
-            android:layout_marginTop="8dp"/>
 
-        <!-- Two more TextViews horizontally -->
-<!--        <TextView-->
-<!--            android:id="@+id/NoofdaysTextview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/LocationTextview"-->
-<!--            android:layout_marginTop="16dp"-->
 
-<!--            android:padding="5dp"-->
-<!--            android:background="@drawable/rounded_bordertext"-->
-<!--            android:text="TextView 3"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="15dp" />-->
+            android:layout_toEndOf="@id/imageView">
 
-<!--        <TextView-->
-<!--            android:id="@+id/SeasonTextview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="TextView 4"-->
-<!--            android:background="@drawable/rounded_bordertext"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="15dp"-->
-<!--            android:padding="5dp"-->
+            <!-- Two TextViews vertically -->
+            <TextView
+                android:id="@+id/NameTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="5dp"
+                android:text="TextView 1"
+                android:textSize="16dp" />
 
-<!--            android:layout_toEndOf="@id/NoofdaysTextview"-->
-<!--            android:layout_alignBaseline="@id/NoofdaysTextview"-->
-<!--            android:layout_marginStart="8dp"/>-->
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/LocationTextview"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/NameTextview"
+                android:layout_marginTop="8dp"
+                android:drawableStart="@drawable/baseline_location_on_24"
 
-    <!-- Third part: One TextView -->
-    <TextView
-        android:id="@+id/PriceTextview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:padding="5dp"
-        android:textColor="@color/white"
-        android:background="@drawable/rounded_bordertextorange"
-        android:drawableStart="@drawable/rupeesymbol"
-        android:layout_marginTop="46dp"
-        android:layout_toEndOf="@id/imageView"
-        android:text="TextView 5" />
+                android:text="TextView 2"
+                android:textColor="#d9d9d9"
+                android:textSize="12dp" />
+
+            <!-- Two more TextViews horizontally -->
+
+
+            <TextView
+                android:id="@+id/PriceTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/NameTextview"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/LocationTextview"
+                android:layout_marginEnd="0dp"
+                android:background="@drawable/rounded_bordertextorange"
+                android:drawableStart="@drawable/rupeesymbol"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="TextView 5"
+                android:textColor="@color/white"
+                android:textSize="12dp" />
+
+        </RelativeLayout>
+
+        <!-- Third part: One TextView -->
+
+
+    </LinearLayout>
 </RelativeLayout>

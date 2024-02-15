@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,12 +30,12 @@ public class Each_Month_Fliter_Activity extends AppCompatActivity {
     private Month_Adapter adapter;
     private List<PlaceModel> places;
     private EditText searchtext;
-
+    private TextView placeTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.eac_month_fliter_activity);
-
+        placeTextView = findViewById(R.id.place);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -45,7 +46,7 @@ public class Each_Month_Fliter_Activity extends AppCompatActivity {
         // Retrieve the selected month passed from the previous activity
         Intent intent = getIntent();
         String selectedMonth = intent.getStringExtra("selected_month");
-
+        placeTextView.setText("Month: " + selectedMonth);
         // Query Firebase to fetch places where the month matches the selected month
         DatabaseReference placesRef = FirebaseDatabase.getInstance().getReference("places");
         placesRef.orderByChild("month").equalTo(selectedMonth).addListenerForSingleValueEvent(new ValueEventListener() {

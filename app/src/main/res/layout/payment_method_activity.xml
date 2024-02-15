@@ -163,6 +163,7 @@
             android:text="Card Number"
             android:textColor="#848884"
             android:textSize="18dp"
+
             android:textStyle="bold" />
         <EditText
             android:id="@+id/card_number"
@@ -173,7 +174,9 @@
             android:padding="5dp"
             android:paddingLeft="0dp"
             android:textColor="@color/black"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:inputType="number" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -223,7 +226,8 @@
                 android:hint="MM/YY"
                 android:padding="5dp"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+              />
 
             <EditText
                 android:id="@+id/cvv"
@@ -237,7 +241,8 @@
                 android:hint="888"
                 android:padding="5dp"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:inputType="number"/>
 
         </LinearLayout>
 

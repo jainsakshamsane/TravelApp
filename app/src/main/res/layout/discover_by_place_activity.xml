@@ -6,9 +6,10 @@
     android:layout_margin="16dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center">
     <!-- First TextView at the top -->
 <!--    <TextView-->
 <!--        android:id="@+id/textViewHeading1"-->
@@ -32,6 +33,7 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:gravity="center"
+        android:layout_gravity="center"
   />
     </LinearLayout>
     <RelativeLayout
@@ -55,7 +57,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:contentDescription="Search Bar"
-                android:hint="Search For Recipies"
+                android:hint="Search"
                 android:padding="13dp"
                 android:background="@drawable/rectangle_background"
                 android:imeOptions="actionSearch"

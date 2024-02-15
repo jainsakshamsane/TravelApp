@@ -8,28 +8,29 @@ android:layout_margin="10dp"
     >
 
     <LinearLayout
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:layout_marginTop="10dp"
+
         android:orientation="horizontal">
         <!-- First part: ImageView -->
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="120dp"
-            android:layout_height="140dp"
-            android:src="@drawable/shipp"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
-            />
+            android:src="@drawable/shipp" />
         <!-- Second part: Nested RelativeLayout for TextViews -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+
+
+
             android:layout_toEndOf="@id/imageView">
 
             <!-- Two TextViews vertically -->
@@ -39,19 +40,21 @@ android:layout_margin="10dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="6dp"
+                android:layout_marginStart="5dp"
                 android:text="TextView 1"
-                android:textSize="20dp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/LocationTextview"
-                android:layout_width="wrap_content"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/NameTextview"
                 android:layout_marginTop="8dp"
                 android:drawableStart="@drawable/baseline_location_on_24"
+
                 android:text="TextView 2"
                 android:textColor="#d9d9d9"
-                android:textSize="15dp" />
+                android:textSize="12dp" />
 
             <!-- Two more TextViews horizontally -->
             <TextView
@@ -60,12 +63,12 @@ android:layout_margin="10dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/LocationTextview"
                 android:layout_marginTop="16dp"
-
+                android:layout_marginStart="5dp"
                 android:background="@drawable/rounded_bordertext"
                 android:padding="5dp"
                 android:text="TextView 3"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/SeasonTextview"
@@ -79,21 +82,25 @@ android:layout_margin="10dp"
 
                 android:text="TextView 4"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/PriceTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/SeasonTextview"
-android:layout_marginStart="30dp"
-               android:gravity="center"
-                android:background="@drawable/rounded_bordertextorange"
-                android:drawableStart="@drawable/rupeesymbol"
-                android:padding="5dp"
-                android:text="TextView 5"
-                android:textColor="@color/white" />
+                android:layout_below="@id/NameTextview"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/LocationTextview"
+                android:layout_marginEnd="0dp"
+            android:background="@drawable/rounded_bordertextorange"
+            android:drawableStart="@drawable/rupeesymbol"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="TextView 5"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
         </RelativeLayout>
 
         <!-- Third part: One TextView -->
