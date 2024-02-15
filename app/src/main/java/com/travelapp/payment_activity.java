@@ -1,5 +1,6 @@
 package com.travelapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,7 +32,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class payment_activity extends AppCompatActivity {
     TextView price, totalPrice;
     EditText cardNumber, expiryDate, cvv;
-    String userId, placeName, numberOfPeople; // You need to retrieve these values from SharedPreferences
+    String userId, placeName, numberOfPeople,id; // You need to retrieve these values from SharedPreferences
 
 
     @Override
@@ -57,7 +58,7 @@ public class payment_activity extends AppCompatActivity {
             // You can set total price based on the received price or any other calculation logic
             // For now, let's just set it to the same as price
             totalPrice.setText(priceValue);
-
+            id = extras.getString("placeId");
             // Retrieve additional data from extras
             placeName = extras.getString("placeName");
             numberOfPeople = extras.getString("numberOfPeople");
@@ -67,6 +68,7 @@ public class payment_activity extends AppCompatActivity {
 
         // Retrieve userId from SharedPreferences
         userId = getSharedPreferences("userdetails", MODE_PRIVATE).getString("userid", "");
+
 
         // Save card details to Firebase when user clicks proceed
         findViewById(R.id.proceed).setOnClickListener(v -> {
@@ -185,6 +187,7 @@ public class payment_activity extends AppCompatActivity {
                     Payment payment = new Payment();
                     payment.setUserId(userId);
                     payment.setPlaceName(placeName);
+                    payment.setId(id);
                     payment.setNumberOfPeople(String.valueOf(numberOfPeople)); // Convert int to string
                     payment.setCard_id(cardId);
 

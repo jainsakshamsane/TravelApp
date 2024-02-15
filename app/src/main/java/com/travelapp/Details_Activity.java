@@ -30,6 +30,7 @@ public class Details_Activity extends AppCompatActivity {
     ImageView iconImageView;
     private boolean isSaved = false;
     DatabaseReference saveReference;
+    String id;
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
@@ -63,7 +64,7 @@ public class Details_Activity extends AppCompatActivity {
                         String information = snapshot.child("information").getValue(String.class);
                         String Service = snapshot.child("service").getValue(String.class);
                         String temp = snapshot.child("temprature").getValue(String.class);
-
+                        id = snapshot.child("id").getValue(String.class);
                         ImageView backgroundImageView = findViewById(R.id.backgroundImageView);
                         TextView NametextView1 = findViewById(R.id.NametextView1);
                         TextView LocationtextView2 = findViewById(R.id.LocationtextView2);
@@ -186,6 +187,7 @@ public class Details_Activity extends AppCompatActivity {
                 intent.putExtra("price", price);
                 intent.putExtra("numberOfPeople", numberOfPeople);
                 intent.putExtra("placeName", placeName);
+                intent.putExtra("placeId",  id);
                 startActivity(intent);
             }
         });

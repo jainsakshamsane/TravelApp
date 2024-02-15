@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,7 +25,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 import com.travelapp.Adapters.BestPlacesAdapter;
 import com.travelapp.Adapters.PlacesAdapter;
 import com.travelapp.Models.PlaceModel;
@@ -32,8 +32,7 @@ import com.travelapp.Models.PlaceModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.SharedPreferences;
-public class Main_Fragment extends Fragment {
+public class Main_Fragment extends Fragment implements PlacesAdapter.OnItemClickListener {
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewBestPlaces;
     private PlacesAdapter adapter;
@@ -42,11 +41,7 @@ public class Main_Fragment extends Fragment {
     private List<PlaceModel> bestPlaceList;
     private List<PlaceModel> originalBestPlaceList; // Store original list of best places
     EditText searchtext;
-    ImageView searchButton,userimage,discover,month;
-
-
-
-
+    ImageView searchButton, userimage, discover, month;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -90,17 +85,13 @@ public class Main_Fragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerViewBestPlaces.setAdapter(bestPlacesAdapter);
 
-//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", MODE_PRIVATE);
-//        String imageUrl = sharedPreferences.getString("imageurl", "");
-//
-//        // Load image using Picasso
-//        Picasso.get().load(imageUrl)
-//                .placeholder(R.drawable.authorrr) // Placeholder image while loading
-//                .error(R.drawable.authorrr) // Image to show if loading fails
-//                .into(userimage);
-
         return rootView;
+    }
 
+    @Override
+    public void onItemClick(PlaceModel place) {
+        // Handle item click
+        saveSelectedPlaceId(place.getId());
     }
 
     @Override
@@ -190,6 +181,10 @@ public class Main_Fragment extends Fragment {
         adapter.updateList(filteredPlaceList); // Update adapter with filtered places
         bestPlacesAdapter.updateList(originalBestPlaceList); // Update bestPlacesAdapter with original list of best places
     }
+
+    private void saveSelectedPlaceId(String id) {
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("selected_place", MODE_PRIVATE).edit();
+        editor.putString("place_id", id);
+        editor.apply();
+    }
 }
-
-
