@@ -30,6 +30,7 @@ import com.travelapp.Adapters.UpcomingPlacesAdapter;
 import com.travelapp.Models.PlaceModel;
 import com.travelapp.Models.PlacesModel;
 import com.travelapp.Models.TransactionModel;
+import com.travelapp.Models.UpcomingModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,12 +45,13 @@ public class UpcomingTourActivity extends AppCompatActivity {
     private RecyclerView locationRecyclerView, recyclerView12;
     UpcomingPlacesAdapter adapter;
     List<PlacesModel> placeModelList = new ArrayList<>();
+    List<UpcomingModel> UpcomingModelList = new ArrayList<>();
     HistoryAdapter paymentHistoryAdapter;
     AllHistoryAdapter allHistoryAdapter;
     LinearLayout linear6;
     List<TransactionModel> paymentList = new ArrayList<>();
     TextView noPlacesTextView;
-
+    String userid;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,158 +71,109 @@ public class UpcomingTourActivity extends AppCompatActivity {
         DatabaseReference paymentRef = FirebaseDatabase.getInstance().getReference("payments");
         DatabaseReference placeRef = FirebaseDatabase.getInstance().getReference("places");
 
-        adapter = new UpcomingPlacesAdapter(this, placeModelList);
-        paymentHistoryAdapter = new HistoryAdapter(this, placeModelList);
+        adapter = new UpcomingPlacesAdapter(this, UpcomingModelList);
+        allHistoryAdapter = new AllHistoryAdapter(this, placeModelList);
+
+
+        SharedPreferences sharedPreferencess = getSharedPreferences("userdetails", MODE_PRIVATE);
+         userid = sharedPreferencess.getString("userid", "");
 
         paymentRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot cardsSnapshot) {
-                paymentList.clear(); // Clear the list before adding new data
+                // paymentList.clear(); // Clear the list before adding new data
 
                 for (DataSnapshot cardSnapshot : cardsSnapshot.getChildren()) {
-                    String placename = cardSnapshot.child("placeName").getValue(String.class);
                     String userId = cardSnapshot.child("userId").getValue(String.class);
 
-                    // Assuming you have a Payment class to represent the data
-                    TransactionModel payment = new TransactionModel(placename, userId);
-                    paymentList.add(payment);
+                    if (userId.equals(userid)) {
+                        String placename = cardSnapshot.child("placeName").getValue(String.class);
+
+                        String placeid = cardSnapshot.child("id").getValue(String.class);
+                        String people = cardSnapshot.child("numberOfPeople").getValue(String.class);
+                        Log.e("inside", "inside payment" + placename + "**" + placeid + "**" + people);
+                        // Assuming you have a Payment class to represent the data
+                        TransactionModel payment = new TransactionModel(placename, userId, placeid, people);
+                        paymentList.add(payment);
+                    }
                 }
+
 
                 // Fetch and process data from payments node
                 placeRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot paymentsSnapshot) {
-                        for (TransactionModel payment : paymentList) {
-                            for (DataSnapshot placeSnapshot : paymentsSnapshot.getChildren()) {
+                        for (DataSnapshot placeSnapshot : paymentsSnapshot.getChildren()) {
+                            for (TransactionModel payment : paymentList) {
                                 String nameofplace = placeSnapshot.child("name").getValue(String.class);
+                                String idplace = placeSnapshot.child("id").getValue(String.class);
+                                Log.e("inside", "data  " + payment.getId() + "**" + idplace);
+                                // Proceed to check the placeName condition
+                                if (payment.getId().equals(idplace)) {
+                                    // Example: Fetch placeName from payments
 
-                                SharedPreferences sharedPreferencess = getSharedPreferences("userdetails", MODE_PRIVATE);
-                                String userid = sharedPreferencess.getString("userid", "");
-
-                                // Check if userId matches the currently logged-in user's userid
-                                if (payment.getUserId().equals(userid)) {
-                                    // Proceed to check the placeName condition
-                                    if (payment.getPlaceName().equals(nameofplace)) {
-                                        // Example: Fetch placeName from payments
-                                        String id = placeSnapshot.child("id").getValue(String.class);
-                                        String placename = placeSnapshot.child("name").getValue(String.class);
-                                        String city = placeSnapshot.child("city").getValue(String.class);
-                                        String country = placeSnapshot.child("country").getValue(String.class);
-                                        String price = placeSnapshot.child("price").getValue(String.class);
-                                        String image = placeSnapshot.child("image").getValue(String.class);
-                                        String startdate = placeSnapshot.child("date_start").getValue(String.class);
-                                        String noofdays = placeSnapshot.child("no_of_days").getValue(String.class);
-                                        String season = placeSnapshot.child("season").getValue(String.class);
-
-                                        // Compare the start date with today's date
-                                        if (isStartDateGreaterThanToday(startdate)) {
-                                            Log.d("PlaceMethodActivity", "Linked Data - UserId: " + payment.getPlaceName() + ", Name: " + placename +id+ city + country + price + startdate + noofdays + season);
-
-                                            PlacesModel placeModel = new PlacesModel(placename, city, country, price, image, noofdays, season,id);
-                                            placeModelList.add(placeModel);
-
-                                            // Set the adapter after cards data is retrieved
-                                            locationRecyclerView.setAdapter(adapter);
-                                            locationRecyclerView.setVisibility(View.VISIBLE);
-                                            noPlacesTextView.setVisibility(View.GONE);
-                                        }
-                                    }
-                                } else {
-                                    locationRecyclerView.setVisibility(View.GONE);
-                                    noPlacesTextView.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }
-                        // Notify the adapter that the data has changed
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(UpcomingTourActivity.this, "Failed to retrieve payments", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(UpcomingTourActivity.this, "Failed to retrieve places", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        DatabaseReference paymentsRef = FirebaseDatabase.getInstance().getReference("payments");
-        DatabaseReference placesRef = FirebaseDatabase.getInstance().getReference("places");
-
-        allHistoryAdapter = new AllHistoryAdapter(this, placeModelList);
-
-        paymentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot cardsSnapshot) {
-                paymentList.clear(); // Clear the list before adding new data
-
-                for (DataSnapshot cardSnapshot : cardsSnapshot.getChildren()) {
-                    String placename = cardSnapshot.child("placeName").getValue(String.class);
-                    String userId = cardSnapshot.child("userId").getValue(String.class);
-
-                    // Assuming you have a Payment class to represent the data
-                    TransactionModel payment = new TransactionModel(placename, userId);
-                    paymentList.add(payment);
-                }
-
-                // Fetch and process data from payments node
-                placesRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot paymentsSnapshot) {
-                        for (TransactionModel payment : paymentList) {
-                            for (DataSnapshot placeSnapshot : paymentsSnapshot.getChildren()) {
-                                String nameofplace = placeSnapshot.child("name").getValue(String.class);
-
-                                SharedPreferences sharedPreferencess = getSharedPreferences("userdetails", MODE_PRIVATE);
-                                String userid = sharedPreferencess.getString("userid", "");
-
-                                // Check if userId matches the currently logged-in user's userid
-                                if (payment.getUserId().equals(userid)) {
-                                    // Proceed to check the placeName condition
-                                    if (payment.getPlaceName().equals(nameofplace)) {
-                                        // Example: Fetch placeName from payments
-                                        String placename = placeSnapshot.child("name").getValue(String.class);
-                                        String city = placeSnapshot.child("city").getValue(String.class);
-                                        String country = placeSnapshot.child("country").getValue(String.class);
-                                        String price = placeSnapshot.child("price").getValue(String.class);
-                                        String image = placeSnapshot.child("image").getValue(String.class);
-                                        Log.d("PlaceMethodActivity", "Linked Data - UserId: " + payment.getPlaceName() + ", Name: " + placename + city + country + price);
-
-                                        PlacesModel placeModel = new PlacesModel(placename, city, country, price, image);
-                                        placeModelList.add(placeModel);
-
+                                    String placename = placeSnapshot.child("name").getValue(String.class);
+                                    String city = placeSnapshot.child("city").getValue(String.class);
+                                    String country = placeSnapshot.child("country").getValue(String.class);
+                                    String price = placeSnapshot.child("price").getValue(String.class);
+                                    String image = placeSnapshot.child("image").getValue(String.class);
+                                    String startdate = placeSnapshot.child("date_start").getValue(String.class);
+                                    String noofdays = placeSnapshot.child("no_of_days").getValue(String.class);
+                                    String season = placeSnapshot.child("season").getValue(String.class);
+                                    Log.e("inside", "placeModelList" + placename + "**" + city + "**" + country + "**" + idplace);
+                                    PlacesModel placeModel = new PlacesModel(placename, city, country, price, image, idplace);
+                                    placeModelList.add(placeModel);
+                                    // Compare the start date with today's date
+                                    if (isStartDateGreaterThanToday(startdate)) {
+                                        Log.e("inside", "UpcomingModelList" + placename + "**" + city + "**" + noofdays + "**" + idplace);
+                                        UpcomingModel upcomingmodel = new UpcomingModel(placename, city, country, price, image, noofdays, season, idplace);
+                                        UpcomingModelList.add(upcomingmodel);
                                         // Set the adapter after cards data is retrieved
-                                        recyclerView12.setAdapter(allHistoryAdapter);
-                                        recyclerView12.setVisibility(View.VISIBLE);
-                                        linear6.setVisibility(View.GONE);
+
+                                    } else {
+//                                            PlacesModel placeModel = new PlacesModel(placename, city, country, price, image, idplace);
+//                                            placeModelList.add(placeModel);
                                     }
-                                } else {
-                                    recyclerView12.setVisibility(View.GONE);
-                                    linear6.setVisibility(View.VISIBLE);
                                 }
+                            }
+                            if (UpcomingModelList != null) {
+                                locationRecyclerView.setAdapter(adapter);
+                                locationRecyclerView.setVisibility(View.VISIBLE);
+                                noPlacesTextView.setVisibility(View.GONE);
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                locationRecyclerView.setVisibility(View.GONE);
+                                noPlacesTextView.setVisibility(View.VISIBLE);
+                            }
+                            if (placeModelList != null) {
+                                recyclerView12.setAdapter(allHistoryAdapter);
+                                recyclerView12.setVisibility(View.VISIBLE);
+                                linear6.setVisibility(View.GONE);
+                                allHistoryAdapter.notifyDataSetChanged();
+                            } else {
+                                recyclerView12.setVisibility(View.GONE);
+                                linear6.setVisibility(View.VISIBLE);
                             }
                         }
                         // Notify the adapter that the data has changed
-                        allHistoryAdapter.notifyDataSetChanged();
                     }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Toast.makeText(UpcomingTourActivity.this, "Failed to retrieve payments", Toast.LENGTH_SHORT).show();
                     }
                 });
-            }
 
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(UpcomingTourActivity.this, "Failed to retrieve places", Toast.LENGTH_SHORT).show();
             }
         });
+
+     
+       
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
