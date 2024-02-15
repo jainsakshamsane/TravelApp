@@ -102,6 +102,7 @@ public class UpcomingTourActivity extends AppCompatActivity {
                                     // Proceed to check the placeName condition
                                     if (payment.getPlaceName().equals(nameofplace)) {
                                         // Example: Fetch placeName from payments
+                                        String id = placeSnapshot.child("id").getValue(String.class);
                                         String placename = placeSnapshot.child("name").getValue(String.class);
                                         String city = placeSnapshot.child("city").getValue(String.class);
                                         String country = placeSnapshot.child("country").getValue(String.class);
@@ -113,9 +114,9 @@ public class UpcomingTourActivity extends AppCompatActivity {
 
                                         // Compare the start date with today's date
                                         if (isStartDateGreaterThanToday(startdate)) {
-                                            Log.d("PlaceMethodActivity", "Linked Data - UserId: " + payment.getPlaceName() + ", Name: " + placename + city + country + price + startdate + noofdays + season);
+                                            Log.d("PlaceMethodActivity", "Linked Data - UserId: " + payment.getPlaceName() + ", Name: " + placename +id+ city + country + price + startdate + noofdays + season);
 
-                                            PlacesModel placeModel = new PlacesModel(placename, city, country, price, image, noofdays, season);
+                                            PlacesModel placeModel = new PlacesModel(placename, city, country, price, image, noofdays, season,id);
                                             placeModelList.add(placeModel);
 
                                             // Set the adapter after cards data is retrieved

@@ -1,7 +1,11 @@
 package com.travelapp.Adapters;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+import com.travelapp.Chat_Activity;
+import com.travelapp.Details_Activity;
 import com.travelapp.Models.PlaceModel;
 import com.travelapp.Models.PlacesModel;
 import com.travelapp.R;
@@ -45,6 +51,31 @@ public class AllHistoryAdapter extends RecyclerView.Adapter<AllHistoryAdapter.Vi
         holder.priceTextView.setText("Rs." + placeModel.getPrice());
 
         Picasso.get().load(placeModel.getImage()).into(holder.imageView);
+        holder.Totallayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get the name of the place
+                String placeName = placeModel.getName();
+
+                // Start details activity and pass the name of the place
+                Intent intent = new Intent(context, Details_Activity.class);
+                intent.putExtra("placeName", placeName);
+                context.startActivity(intent);
+            }
+        });
+        holder.chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Chat_Activity.class);
+                intent.putExtra("Name", holder.name);
+                intent.putExtra("placename", placeModel.getName());
+                intent.putExtra("senderid", holder.loggedInUserId);
+                intent.putExtra("placeid", placeModel.getId());
+                Log.e("Allhistory", "Error all " +holder.name+"**"+ holder.loggedInUserId+"**"+ placeModel.getName()+"**"+placeModel.getId());
+
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -57,6 +88,8 @@ public class AllHistoryAdapter extends RecyclerView.Adapter<AllHistoryAdapter.Vi
         TextView locationTextView;
         TextView priceTextView;
         ImageView imageView, chat;
+        RelativeLayout Totallayout;
+         String loggedInUserId,name;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,6 +98,11 @@ public class AllHistoryAdapter extends RecyclerView.Adapter<AllHistoryAdapter.Vi
             priceTextView = itemView.findViewById(R.id.price);
             imageView = itemView.findViewById(R.id.image);
             chat = itemView.findViewById(R.id.chat);
+            Totallayout = itemView.findViewById(R.id.Totallayout);
+            SharedPreferences sharedPreferences = itemView.getContext().getSharedPreferences("userdetails", MODE_PRIVATE);
+            loggedInUserId = sharedPreferences.getString("userid", "");
+            name = sharedPreferences.getString("fullname", "");
+
         }
     }
 }

@@ -2,15 +2,24 @@ package com.travelapp.Adapters;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.travelapp.Models.Message;
 import com.travelapp.R;
@@ -100,14 +109,47 @@ public class UserMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     static class TextReceiverViewHolder extends RecyclerView.ViewHolder {
         TextView receiverMessageTextView;
+        ImageView receiverImageView;
 
         TextReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
             receiverMessageTextView = itemView.findViewById(R.id.receiverMessageTextView);
+            receiverImageView = itemView.findViewById(R.id.receiverImageView);
         }
 
         void bind(Message message) {
             receiverMessageTextView.setText(message.getText());
+
+            // Load image from "places" node based on the "placeId" associated with the message
+            DatabaseReference placesRef = FirebaseDatabase.getInstance().getReference().child("places");
+            Query query = placesRef.orderByChild("id").equalTo(message.getPlaceid());
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot placeSnapshot : dataSnapshot.getChildren()) {
+                            String imageUrl = placeSnapshot.child("image").getValue(String.class);
+                            if (imageUrl != null) {
+                                // Load image using Picasso
+                                Picasso.get().load(imageUrl)
+                                        .placeholder(R.drawable.authorrr) // Placeholder image while loading
+                                        .error(R.drawable.authorrr) // Image to show if loading fails
+                                        .into(receiverImageView);
+                            }
+                        }
+                    } else {
+                        // If no place found with the given placeId, you can load a default image or handle it as per your requirement
+                        // For example, loading a placeholder image
+                        receiverImageView.setImageResource(R.drawable.authorrr);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle any errors
+                    Log.e("UserMessageAdapter", "Error loading image: " + databaseError.getMessage());
+                }
+            });
         }
     }
 
@@ -126,27 +168,65 @@ public class UserMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     static class ImageReceiverViewHolder extends RecyclerView.ViewHolder {
         ImageView receiverImageView;
+        ProgressBar receiverLoadingIndicator;
 
         ImageReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
             receiverImageView = itemView.findViewById(R.id.receiverImageView);
+            receiverLoadingIndicator = itemView.findViewById(R.id.receiverLoadingIndicator);
         }
 
         void bind(Message message) {
-            Picasso.get().load(message.getImageUrl()).into(receiverImageView);
+            if (!message.getImageUrl().isEmpty()) {
+                receiverLoadingIndicator.setVisibility(View.VISIBLE);
+                receiverImageView.setVisibility(View.VISIBLE);
+                Picasso.get().load(message.getImageUrl()).into(receiverImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        receiverLoadingIndicator.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        receiverLoadingIndicator.setVisibility(View.GONE);
+                    }
+                });
+            } else {
+                receiverImageView.setVisibility(View.GONE);
+                receiverLoadingIndicator.setVisibility(View.GONE);
+            }
         }
     }
 
     static class ImageSenderViewHolder extends RecyclerView.ViewHolder {
         ImageView senderImageView;
+        ProgressBar senderLoadingIndicator;
 
         ImageSenderViewHolder(@NonNull View itemView) {
             super(itemView);
             senderImageView = itemView.findViewById(R.id.senderImageView);
+            senderLoadingIndicator = itemView.findViewById(R.id.senderLoadingIndicator);
         }
 
         void bind(Message message) {
-            Picasso.get().load(message.getImageUrl()).into(senderImageView);
+            if (!message.getImageUrl().isEmpty()) {
+                senderLoadingIndicator.setVisibility(View.VISIBLE);
+                senderImageView.setVisibility(View.VISIBLE);
+                Picasso.get().load(message.getImageUrl()).into(senderImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        senderLoadingIndicator.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        senderLoadingIndicator.setVisibility(View.GONE);
+                    }
+                });
+            } else {
+                senderImageView.setVisibility(View.GONE);
+                senderLoadingIndicator.setVisibility(View.GONE);
+            }
         }
     }
 }

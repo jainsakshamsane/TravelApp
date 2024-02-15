@@ -50,6 +50,10 @@ public class Chat_Fragment extends Fragment {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", MODE_PRIVATE);
         String loggedInUserId = sharedPreferences.getString("userid", "");
+        String loggedInUsername = sharedPreferences.getString("fullname", "");
+        Log.e("Chat_Fragment", "messages: " + loggedInUsername);
+
+
 
 
 
@@ -105,7 +109,7 @@ public class Chat_Fragment extends Fragment {
             }
         });
 
-        adapter = new ChatsRecyclerViewAdapter(getContext(), chatList,loggedInUserId);
+        adapter = new ChatsRecyclerViewAdapter(getContext(), chatList,loggedInUserId,loggedInUsername);
         recyclerView.setAdapter(adapter);
 
         // Load user's image using Picasso
