@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,7 +42,7 @@ public class Explore_Fragment extends Fragment {
     private List<TravelDestination> exploreDestinationsList;
     private DatabaseReference databaseReference;
 
-    ImageView userimage;
+    ImageView userimage,discover;
     TextView noPlacesTextView;
 
     @SuppressLint("MissingInflatedId")
@@ -49,6 +50,15 @@ public class Explore_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.explore_fragment, container, false);
         userimage = rootView.findViewById(R.id.userimage);
+        discover = rootView.findViewById(R.id.discover);
+
+        discover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle arrowImageView click (e.g., navigate to another activity)
+                startActivity(new Intent(getActivity(), Discover_Activity.class));
+            }
+        });
         noPlacesTextView = rootView.findViewById(R.id.noPlacesTextView);
         imageRecyclerView = rootView.findViewById(R.id.ImagesrecyclerView);
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));

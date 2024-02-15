@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.travelapp.Chat_Activity;
+import com.travelapp.Details_Activity;
 import com.travelapp.Models.PlacesModel;
 import com.travelapp.R;
 
@@ -62,6 +64,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 context.startActivity(intent);
             }
         });
+        holder.Totallayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get the name of the place
+                String placeName = placeModel.getName();
+
+                // Start details activity and pass the name of the place
+                Intent intent = new Intent(context, Details_Activity.class);
+                intent.putExtra("placeName", placeName);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -76,12 +90,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         ImageView imageView, chat;
         String loggedInUserId,name;
 
+        RelativeLayout Totallayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.name);
             locationTextView = itemView.findViewById(R.id.location);
             priceTextView = itemView.findViewById(R.id.price);
             imageView = itemView.findViewById(R.id.image);
+            Totallayout = itemView.findViewById(R.id.Totallayout);
             chat = itemView.findViewById(R.id.chat);
             SharedPreferences sharedPreferences = itemView.getContext().getSharedPreferences("userdetails", MODE_PRIVATE);
             loggedInUserId = sharedPreferences.getString("userid", "");
