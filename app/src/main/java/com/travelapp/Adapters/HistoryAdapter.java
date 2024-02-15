@@ -1,6 +1,11 @@
 package com.travelapp.Adapters;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+import com.travelapp.Chat_Activity;
 import com.travelapp.Models.PlacesModel;
 import com.travelapp.R;
 
@@ -28,7 +34,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_historypayment, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_allhistory, parent, false);
         return new ViewHolder(view);
     }
 
@@ -42,6 +48,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.priceTextView.setText("Rs." + placeModel.getPrice());
 
         Picasso.get().load(placeModel.getImage()).into(holder.imageView);
+
+        holder.chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Chat_Activity.class);
+                intent.putExtra("Name", holder.name);
+                intent.putExtra("placename", placeModel.getName());
+                intent.putExtra("senderid", holder.loggedInUserId);
+                intent.putExtra("placeid", placeModel.getId());
+                Log.e("Allhistory", "Error all " +holder.name+"**"+ holder.loggedInUserId+"**"+ placeModel.getName()+"**"+placeModel.getId());
+
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -53,7 +73,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         TextView nameTextView;
         TextView locationTextView;
         TextView priceTextView;
-        ImageView imageView;
+        ImageView imageView, chat;
+        String loggedInUserId,name;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +82,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             locationTextView = itemView.findViewById(R.id.location);
             priceTextView = itemView.findViewById(R.id.price);
             imageView = itemView.findViewById(R.id.image);
+            chat = itemView.findViewById(R.id.chat);
+            SharedPreferences sharedPreferences = itemView.getContext().getSharedPreferences("userdetails", MODE_PRIVATE);
+            loggedInUserId = sharedPreferences.getString("userid", "");
+            name = sharedPreferences.getString("fullname", "");
         }
     }
 }

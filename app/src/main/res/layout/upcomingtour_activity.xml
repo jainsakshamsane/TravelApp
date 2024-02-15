@@ -48,7 +48,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView12"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/linear1"
             android:layout_marginTop="20dp"
             android:layout_marginStart="0dp"
@@ -144,7 +144,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView122"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/linear5"
             android:layout_marginTop="20dp"
             android:layout_marginStart="0dp"

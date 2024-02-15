@@ -1,6 +1,6 @@
 package com.travelapp.Models;
 
-public class PlacesModel {
+public class UpcomingModel {
     private String id;
     private String best_place;
     private String name;
@@ -17,24 +17,17 @@ public class PlacesModel {
     String service;
     String temprature;
 
-    public PlacesModel(String placename, String city, String country, String price, String image) {
-        this.name = placename;
-        this.city = city;
-        this.country = country;
-        this.price = price;
-        this.image = image;
-    }
 
-    public PlacesModel(String placename, String city, String country, String price, String image, String id) {
+    public UpcomingModel(String placename, String city, String country, String price, String image, String noofdays, String season,String id) {
         this.name = placename;
         this.city = city;
         this.country = country;
         this.price = price;
         this.image = image;
+        this.no_of_days = noofdays;
+        this.season = season;
         this.id = id;
     }
-
-
 
     public String getMonth() {
         return month;

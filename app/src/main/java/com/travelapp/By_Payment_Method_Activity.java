@@ -94,14 +94,16 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                     if (userId.equals(userid)) {
                         CardModel card = new CardModel(cardNumber, expiryDate, totalPrice, userId);
                         cardList.add(card);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        linear01.setVisibility(View.GONE);
-                    } else {
-                        recyclerView.setVisibility(View.GONE);
-                        linear01.setVisibility(View.VISIBLE);
+
                     }
                 }
-
+                if(cardList != null){
+                    recyclerView.setVisibility(View.VISIBLE);
+                    linear01.setVisibility(View.GONE);
+                } else {
+                    recyclerView.setVisibility(View.GONE);
+                    linear01.setVisibility(View.VISIBLE);
+                }
                 // Set the adapter after cards data is retrieved
                 recyclerView.setAdapter(adapter);
 
@@ -190,15 +192,14 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                                             String country = placeSnapshot.child("country").getValue(String.class);
                                             String price = placeSnapshot.child("price").getValue(String.class);
                                             String image = placeSnapshot.child("image").getValue(String.class);
+                                            String idplace = placeSnapshot.child("id").getValue(String.class);
                                             Log.d("PlaceMethodActivity", "Linked Data - UserId: " + payment.getPlaceName() + ", Name: " + placename + city + country + price);
 
-                                            PlacesModel placeModel = new PlacesModel(placename, city, country, price, image);
+                                            PlacesModel placeModel = new PlacesModel(placename, city, country, price, image, idplace);
                                             placeModelList.add(placeModel);
 
                                             // Set the adapter after cards data is retrieved
-                                            recyclerView12.setAdapter(paymentHistoryAdapter);
-                                            recyclerView12.setVisibility(View.VISIBLE);
-                                            linear5.setVisibility(View.GONE);
+
                                     }
                                 } else {
                                     recyclerView12.setVisibility(View.GONE);
@@ -206,6 +207,9 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                                 }
                             }
                         }
+                        recyclerView12.setAdapter(paymentHistoryAdapter);
+                        recyclerView12.setVisibility(View.VISIBLE);
+                        linear5.setVisibility(View.GONE);
                         // Notify the adapter that the data has changed
                         paymentHistoryAdapter.notifyDataSetChanged();
                     }

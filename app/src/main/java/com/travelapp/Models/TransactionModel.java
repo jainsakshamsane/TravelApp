@@ -4,9 +4,10 @@ public class TransactionModel {
     private String paymentId;
     private String userId;
     private String placeName;
-    private int numberOfPeople;
+    private String numberOfPeople;
     private String card_id;
     private String date;
+    private String id;
 
     public TransactionModel(String placename, String userId) {
         this.placeName = placename;
@@ -17,6 +18,21 @@ public class TransactionModel {
         this.placeName = placename;
         this.userId = userId;
         this.date = date;
+    }
+
+    public TransactionModel(String placename, String userId, String placeid, String people) {
+        this.placeName = placename;
+        this.userId = userId;
+        this.id = placeid;
+        this.numberOfPeople = people;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDate() {
@@ -59,11 +75,11 @@ public class TransactionModel {
         this.placeName = placeName;
     }
 
-    public int getNumberOfPeople() {
+    public String getNumberOfPeople() {
         return numberOfPeople;
     }
 
-    public void setNumberOfPeople(int numberOfPeople) {
+    public void setNumberOfPeople(String numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
     }
 

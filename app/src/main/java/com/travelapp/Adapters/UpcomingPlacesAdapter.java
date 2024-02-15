@@ -15,15 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import com.travelapp.Details_Activity;
 import com.travelapp.Models.PlacesModel;
+import com.travelapp.Models.UpcomingModel;
 import com.travelapp.R;
 
 import java.util.List;
 
 public class UpcomingPlacesAdapter extends RecyclerView.Adapter<UpcomingPlacesAdapter.ViewHolder> {
-    private List<PlacesModel> places;
+    private List<UpcomingModel> places;
     private Context context;
 
-    public UpcomingPlacesAdapter(Context context, List<PlacesModel> places) {
+    public UpcomingPlacesAdapter(Context context, List<UpcomingModel> places) {
         this.context = context;
         this.places = places;
     }
@@ -37,7 +38,7 @@ public class UpcomingPlacesAdapter extends RecyclerView.Adapter<UpcomingPlacesAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PlacesModel place = places.get(position);
+        UpcomingModel place = places.get(position);
 
         // Bind data to views
         holder.nameTextView.setText(place.getName());
