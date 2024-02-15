@@ -2,12 +2,14 @@ package com.travelapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +42,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
         Location location = locationList.get(position);
         holder.nameTextView.setText(location.getName());
         holder.cityTextView.setText(location.getCity());
-        holder.informationTextView.setText(location.getInformation());
+        holder.bottomTextView.setText(location.getInformation());
 
         // Load image using Picasso
         Picasso.get().load(location.getImage())
@@ -67,7 +69,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
     public static class LocationViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView;
         TextView cityTextView;
-        TextView informationTextView;
+        TextView bottomTextView;
         ImageView imageView;
         RelativeLayout totalLayout;
 
@@ -75,7 +77,16 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
             super(itemView);
             nameTextView = itemView.findViewById(R.id.NameTextview);
             cityTextView = itemView.findViewById(R.id.LocationTextview);
-            informationTextView = itemView.findViewById(R.id.SeasonTextview);
+            bottomTextView = itemView.findViewById(R.id.SeasonTextview);
+            bottomTextView.setMaxLines(1);
+            bottomTextView.setEllipsize(TextUtils.TruncateAt.END);
+            bottomTextView.setText("Your long text goes here...");
+            bottomTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(itemView.getContext(), bottomTextView.getText(), Toast.LENGTH_LONG).show();
+                }
+            });
             imageView = itemView.findViewById(R.id.imageView);
             totalLayout = itemView.findViewById(R.id.Totallayout);
         }

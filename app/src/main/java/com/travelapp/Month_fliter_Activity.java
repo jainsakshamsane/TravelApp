@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,11 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Month_fliter_Activity extends AppCompatActivity {
     TextView Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec;
     TextView lastClickedMonthTextView;
+    ImageView leftIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.month_fliter_activity);
+
 
         // Initialize TextViews for each month
         Jan = findViewById(R.id.text1);
@@ -30,6 +33,16 @@ public class Month_fliter_Activity extends AppCompatActivity {
         Oct = findViewById(R.id.text10);
         Nov = findViewById(R.id.text11);
         Dec = findViewById(R.id.text12);
+        leftIcon = findViewById(R.id.leftIcon);
+
+        leftIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start MainActivity to navigate back to Main_Fragment
+                Intent intent = new Intent(Month_fliter_Activity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Set click listeners for each month TextView to filter places and display them in the next activity
         Jan.setOnClickListener(createOnClickListener(Jan, "January"));

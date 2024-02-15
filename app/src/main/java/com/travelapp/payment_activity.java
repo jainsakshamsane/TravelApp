@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 import com.travelapp.Models.Card;
 import com.travelapp.Models.Payment;
 
@@ -31,8 +33,10 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class payment_activity extends AppCompatActivity {
     TextView price, totalPrice;
+    TextView placename;
     EditText cardNumber, expiryDate, cvv;
     String userId, placeName, numberOfPeople,id; // You need to retrieve these values from SharedPreferences
+
 
 
     @Override
@@ -58,26 +62,27 @@ public class payment_activity extends AppCompatActivity {
             // You can set total price based on the received price or any other calculation logic
             // For now, let's just set it to the same as price
             totalPrice.setText(priceValue);
-            id = extras.getString("placeId");
+
             // Retrieve additional data from extras
             placeName = extras.getString("placeName");
+            id = extras.getString("placeId");
+            String imageUrl = extras.getString("image");
+
+            // Find the ImageView in your layout
+            ImageView imageView = findViewById(R.id.image);
+
+            // Load the image using Picasso
+            Picasso.get().load(imageUrl).into(imageView);
+
+            // Set the place name to a TextView
+            placename = findViewById(R.id.placename);
+            placename.setText(placeName);
+
             numberOfPeople = extras.getString("numberOfPeople");
-            Log.d("price", "Passing price: " + price + ", number of people: " + numberOfPeople+", placeName: " + placeName);
-
+            Log.d("price", "Passing price: " + price + ", number of people: " + numberOfPeople + ", placeName: " + placeName);
         }
-
-        // Retrieve userId from SharedPreferences
-        userId = getSharedPreferences("userdetails", MODE_PRIVATE).getString("userid", "");
-
-
-        // Save card details to Firebase when user clicks proceed
-        findViewById(R.id.proceed).setOnClickListener(v -> {
-            if (validateCardDetails()) {
-                saveCardDetails();
-                savePaymentDetails();
-            }
-        });
     }
+
 
     private class CardNumberTextWatcher implements TextWatcher {
         private static final int CARD_NUMBER_GROUP_SIZE = 4;

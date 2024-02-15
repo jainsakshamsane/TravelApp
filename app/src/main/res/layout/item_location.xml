@@ -5,13 +5,19 @@
     android:id="@+id/Totallayout"
     android:layout_height="wrap_content"
     >
+
+    <!-- First part: ImageView -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="80dp"
         android:padding="5dp"
         android:src="@drawable/shipp"
+
+
         />
+
+    <!-- Second part: Nested RelativeLayout for TextViews -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:id="@+id/firsttt"
@@ -19,6 +25,8 @@
         android:layout_toEndOf="@id/imageView"
         android:layout_alignParentTop="true"
         android:layout_marginStart="16dp">
+
+        <!-- Two TextViews vertically -->
         <TextView
             android:id="@+id/NameTextview"
             android:layout_width="wrap_content"
@@ -27,6 +35,7 @@
             android:textSize="20dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="16dp"/>
+
         <TextView
             android:id="@+id/LocationTextview"
             android:layout_width="wrap_content"
@@ -36,9 +45,12 @@
             android:drawableStart="@drawable/baseline_location_on_24"
             android:textColor="#d9d9d9"
             android:layout_below="@id/NameTextview"
-            android:layout_marginTop="8dp"
-            />
+            android:layout_marginTop="8dp"/>
+
+
+
     </RelativeLayout>
+
     <TextView
         android:id="@+id/SeasonTextview"
         android:layout_width="match_parent"
@@ -50,4 +62,6 @@
         android:layout_marginTop="10dp"
         android:textColor="@color/black"
         android:textSize="15dp" />
+
+
 </RelativeLayout>
