@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.travelapp.Adapters.ChatsRecyclerViewAdapter;
+import com.travelapp.Models.Chat;
 import com.travelapp.Models.User;
 
 import java.util.ArrayList;
@@ -32,11 +34,9 @@ import java.util.List;
 public class Chat_Fragment extends Fragment {
     private RecyclerView recyclerView;
     private ChatsRecyclerViewAdapter adapter;
-    private List<User> userList;
+    private List<Chat> chatList;
     EditText searchtext;
-    ImageView searchButton;
-
-    ImageView userimage;
+    ImageView searchButton, userimage;
 
     @Nullable
     @Override
@@ -48,33 +48,67 @@ public class Chat_Fragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.ChatsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        userList = new ArrayList<>(); // Populate from Firebase
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", MODE_PRIVATE);
+        String loggedInUserId = sharedPreferences.getString("userid", "");
 
-        // Retrieve user data from Firebase
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("places");
-        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+        chatList = new ArrayList<>();
+
+        // Get the Firebase database reference
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        // Navigate to the "messages" node
+        DatabaseReference messagesRef = databaseReference.child("Messages");
+
+        messagesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                userList.clear();
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    User user = userSnapshot.getValue(User.class);
-                    userList.add(user);
+                chatList.clear();
+                for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
+                    // Get the last child node (latest)
+                    DataSnapshot latestChildSnapshot = null;
+                    // Iterate through each child of the current messageSnapshot
+                    for (DataSnapshot childSnapshot : messageSnapshot.getChildren()) {
+                        latestChildSnapshot = childSnapshot;
+                    }
+
+                    // Access the data under the latest child node
+                    if (latestChildSnapshot != null) {
+                        Chat chat = latestChildSnapshot.getValue(Chat.class);
+
+                        // Access the data under each child node
+                        chat.setMessageId(latestChildSnapshot.child("messageId").getValue(String.class));
+                        chat.setPlaceName(latestChildSnapshot.child("placeName").getValue(String.class));
+                        chat.setRecipientId(latestChildSnapshot.child("recipientId").getValue(String.class));
+                        chat.setRecipientName(latestChildSnapshot.child("recipientName").getValue(String.class));
+                        chat.setSenderId(latestChildSnapshot.child("senderId").getValue(String.class));
+                        chat.setSenderName(latestChildSnapshot.child("senderName").getValue(String.class));
+                        chat.setText(latestChildSnapshot.child("text").getValue(String.class));
+
+                        // Check if the logged-in user is the sender or recipient
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", MODE_PRIVATE);
+                        String userId = sharedPreferences.getString("userid", "");
+                        if (userId.equals(chat.getSenderId()) || userId.equals(chat.getRecipientId())) {
+                            chatList.add(chat);
+                        }
+                    }
                 }
-                // Update UI
+                // Update the adapter after fetching all chats
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Handle errors
+                Log.e("Chat_Fragment", "Error retrieving messages: " + databaseError.getMessage());
             }
         });
 
-        adapter = new ChatsRecyclerViewAdapter(getContext(), userList);
+        adapter = new ChatsRecyclerViewAdapter(getContext(), chatList,loggedInUserId);
         recyclerView.setAdapter(adapter);
 
-        // Load image using Picasso
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", MODE_PRIVATE);
+        // Load user's image using Picasso
         String imageUrl = sharedPreferences.getString("imageurl", "");
         Picasso.get().load(imageUrl)
                 .placeholder(R.drawable.authorrr) // Placeholder image while loading
@@ -112,16 +146,17 @@ public class Chat_Fragment extends Fragment {
 
     private void performSearch() {
         String searchText = searchtext.getText().toString().trim().toLowerCase();
-        List<User> filteredUserList = new ArrayList<>();
+        List<Chat> filteredChatList = new ArrayList<>();
 
-        // Filter userList by name
-        for (User user : userList) {
-            if (user.getName().toLowerCase().contains(searchText)) {
-                filteredUserList.add(user);
+        // Filter chatList by relevant criteria
+        for (Chat chat : chatList) {
+            // Example filtering based on sender's name or recipient's name
+            if (chat.getSenderName().toLowerCase().contains(searchText) || chat.getRecipientName().toLowerCase().contains(searchText)) {
+                filteredChatList.add(chat);
             }
         }
 
         // Update adapter with filtered list
-        adapter.updateList(filteredUserList);
+        adapter.updateList(filteredChatList);
     }
 }
