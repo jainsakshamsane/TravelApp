@@ -39,12 +39,13 @@ import java.util.List;
 public class ChatsRecyclerViewAdapter extends RecyclerView.Adapter<ChatsRecyclerViewAdapter.ViewHolder> {
     private List<Chat> chatList;
     private Context context;
-    private String loggedInUserId;
+    private String loggedInUserId,loggedInUsername;
 
-    public ChatsRecyclerViewAdapter(Context context, List<Chat> chatList, String loggedInUserId) {
+    public ChatsRecyclerViewAdapter(Context context, List<Chat> chatList, String loggedInUserId,String loggedInUsername) {
         this.context = context;
         this.chatList = chatList;
         this.loggedInUserId = loggedInUserId;
+        this.loggedInUsername = loggedInUsername;
     }
 
     public void updateList(List<Chat> filteredList) {
@@ -65,17 +66,10 @@ public class ChatsRecyclerViewAdapter extends RecyclerView.Adapter<ChatsRecycler
         String placeName = chat.getPlaceName() != null ? chat.getPlaceName() : "";
 
         // Determine sender's name and ID
-        String senderName, senderId;
-        if (loggedInUserId.equals(chat.getSenderId())) {
-            senderName = chat.getRecipientName() != null ? chat.getRecipientName() : "";
-            senderId = chat.getRecipientId() != null ? chat.getRecipientId() : "";
-        } else {
-            senderName = chat.getSenderName() != null ? chat.getSenderName() : "";
-            senderId = chat.getSenderId() != null ? chat.getSenderId() : "";
-        }
+
 
         // Concatenate senderName and placeName
-        String displayName = senderName + " - " + placeName;
+        String displayName = placeName;
 
         // Set the display name
         holder.topTextView.setText(displayName);
@@ -83,14 +77,14 @@ public class ChatsRecyclerViewAdapter extends RecyclerView.Adapter<ChatsRecycler
         holder.timetextview.setText(chat.getTime());
 
         // Load sender's image
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
-        Query query = usersRef.orderByChild("userid").equalTo(senderId);
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("places");
+        Query query = usersRef.orderByChild("id").equalTo(chat.getPlaceid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        String imageUrl = userSnapshot.child("imageurl").getValue(String.class);
+                        String imageUrl = userSnapshot.child("image").getValue(String.class);
                         if (imageUrl != null) {
                             // Load image using Picasso
                             Picasso.get().load(imageUrl)
@@ -118,10 +112,11 @@ public class ChatsRecyclerViewAdapter extends RecyclerView.Adapter<ChatsRecycler
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Chat_Activity.class);
-                intent.putExtra("Name", senderName);
+                intent.putExtra("Name", loggedInUsername);
                 intent.putExtra("placename", chat.getPlaceName());
-                intent.putExtra("senderid", senderId);
+                intent.putExtra("senderid", loggedInUserId);
                 intent.putExtra("placeid", chat.getPlaceid());
+                Log.e("ChatsAdapter", "Error all " +loggedInUsername+"**"+ loggedInUserId+"**"+ chat.getPlaceName()+"**"+chat.getPlaceid());
                 context.startActivity(intent);
             }
         });
@@ -144,6 +139,15 @@ public class ChatsRecyclerViewAdapter extends RecyclerView.Adapter<ChatsRecycler
             topTextView = itemView.findViewById(R.id.topTextView);
             timetextview = itemView.findViewById(R.id.timetextview);
             bottomTextView = itemView.findViewById(R.id.bottomTextView);
+            bottomTextView.setMaxLines(1);
+            bottomTextView.setEllipsize(TextUtils.TruncateAt.END);
+            bottomTextView.setText("Your long text goes here...");
+            bottomTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(itemView.getContext(), bottomTextView.getText(), Toast.LENGTH_LONG).show();
+                }
+            });
             specifiedperson = itemView.findViewById(R.id.specifiedperson);
         }
     }

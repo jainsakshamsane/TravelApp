@@ -25,7 +25,7 @@ public class PlacesModel {
         this.image = image;
     }
 
-    public PlacesModel(String placename, String city, String country, String price, String image, String noofdays, String season) {
+    public PlacesModel(String placename, String city, String country, String price, String image, String noofdays, String season,String id) {
         this.name = placename;
         this.city = city;
         this.country = country;
@@ -33,6 +33,7 @@ public class PlacesModel {
         this.image = image;
         this.no_of_days = noofdays;
         this.season = season;
+        this.id = id;
     }
 
     public String getMonth() {

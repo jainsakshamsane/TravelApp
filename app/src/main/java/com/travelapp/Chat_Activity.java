@@ -58,7 +58,7 @@ public class Chat_Activity extends AppCompatActivity {
     String placeid;
     String senderid;
     String chatPathrecipient;
-    String Sendername;
+    String senderName;
     private DatabaseReference messagesRefAdminSender;
     private DatabaseReference messagesRefUserRecipient;
 
@@ -69,6 +69,9 @@ public class Chat_Activity extends AppCompatActivity {
         userNameTextView = findViewById(R.id.usernameTextView);
 
         String name = getIntent().getStringExtra("placename");
+        senderName = getIntent().getStringExtra("Name");
+        senderid = getIntent().getStringExtra("senderid");
+        placeId = getIntent().getStringExtra("placeid");
         Log.d("PlaceNameDebug", "Place Name: " + name);
         userNameTextView.setText(name);
 
