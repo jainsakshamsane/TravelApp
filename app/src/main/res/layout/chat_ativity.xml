@@ -1,17 +1,14 @@
 <!-- activity_chat.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:id="@+id/yesh"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:padding="10dp"
-        >
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/backButton"
@@ -44,12 +41,24 @@
 
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/userRecyclerView"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="566dp"
-        android:layout_below="@id/yesh"
-        />
+        android:layout_height="match_parent"
+        android:layout_below="@id/yesh">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/userRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="620dp"
+                android:paddingBottom="8dp" />
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -70,7 +79,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:contentDescription="Left Image"
-            android:src="@drawable/smile" />
+            android:src="@drawable/simelyyyyy" />
 
         <ImageView
             android:id="@+id/cameraimage"
@@ -83,7 +92,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:contentDescription="Right Image 1"
-            android:src="@drawable/btnsendcam" />
+            android:src="@drawable/baseline_camera_alt_24" />
 
         <ImageView
             android:id="@+id/sendbutton"
@@ -96,7 +105,7 @@
             android:layout_marginBottom="10dp"
             android:layout_toLeftOf="@id/cameraimage"
             android:contentDescription="Right Image 2"
-            android:src="@drawable/playq" />
+            android:src="@drawable/baseline_play_arrow_24" />
 
         <EditText
             android:id="@+id/placeholderTextView"
@@ -105,8 +114,8 @@
             android:layout_toLeftOf="@id/sendbutton"
             android:layout_toRightOf="@id/leftImageView"
             android:hint="Type your message..."
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:textSize="16sp" />
 
 
