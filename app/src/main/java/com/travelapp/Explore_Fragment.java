@@ -114,23 +114,31 @@ public class Explore_Fragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 exploreDestinationsList.clear();
+                int matchingCitiesCount = 0; // Initialize the count of matching cities
                 boolean placesFound = false;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     TravelDestination destination = snapshot.getValue(TravelDestination.class);
-                    if (destination.getCity().equals(userCity)) {
-                        exploreDestinationsList.add(destination);
-                        placesFound = true;
+                    if (destination != null) {
+                        String placeCity = destination.getCity();
+                        Log.d("ExploreFragment", "City from Firebase: " + placeCity); // Log the city name from Firebase
+                        if (placeCity.trim().equalsIgnoreCase(userCity.trim())) {
+                            exploreDestinationsList.add(destination);
+                            placesFound = true;
+                            matchingCitiesCount++; // Increment the count of matching cities
+                        }
                     }
                 }
                 exploreAdapter.notifyDataSetChanged();
 
                 // Show or hide the TextView based on whether places are found
-                // Assuming rootView is the inflated view in onCreateView
                 if (placesFound) {
                     noPlacesTextView.setVisibility(View.GONE); // Hide the TextView
                 } else {
                     noPlacesTextView.setVisibility(View.VISIBLE); // Show the TextView
                 }
+
+                // Log the count of matching cities
+                Log.d("ExploreFragment", "Number of matching cities: " + matchingCitiesCount);
             }
 
             @Override
@@ -141,9 +149,16 @@ public class Explore_Fragment extends Fragment {
     }
 
 
+
+
+
+
     private String getUserCity() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("city", "");
+        String city = sharedPreferences.getString("city", "");
+        Log.d("ExploreFragment", "User City: " + city); // Log the city name
+        return city;
     }
+
 
 }

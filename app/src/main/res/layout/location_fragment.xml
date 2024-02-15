@@ -80,7 +80,7 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:contentDescription="Search Bar"
-                    android:hint="Search For Recipies"
+                    android:hint="Search"
                     android:padding="13dp"
                     android:background="@drawable/rectangle_background"
                     android:imeOptions="actionSearch"

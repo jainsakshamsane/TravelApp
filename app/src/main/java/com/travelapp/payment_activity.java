@@ -1,6 +1,8 @@
 package com.travelapp;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -43,6 +45,7 @@ public class payment_activity extends AppCompatActivity {
         cardNumber = findViewById(R.id.card_number);
         expiryDate = findViewById(R.id.exparedate);
         cvv = findViewById(R.id.cvv);
+        cardNumber.addTextChangedListener(new CardNumberTextWatcher());
 
         // Retrieve data from the intent
         Bundle extras = getIntent().getExtras();
@@ -74,9 +77,40 @@ public class payment_activity extends AppCompatActivity {
         });
     }
 
+    private class CardNumberTextWatcher implements TextWatcher {
+        private static final int CARD_NUMBER_GROUP_SIZE = 4;
+        private static final char CARD_NUMBER_SEPARATOR = ' ';
 
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // No implementation needed
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // No implementation needed
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String input = s.toString().replaceAll(String.valueOf(CARD_NUMBER_SEPARATOR), "");
+
+            StringBuilder formatted = new StringBuilder();
+            for (int i = 0; i < input.length(); i++) {
+                formatted.append(input.charAt(i));
+                if ((i + 1) % CARD_NUMBER_GROUP_SIZE == 0 && i != input.length() - 1) {
+                    formatted.append(CARD_NUMBER_SEPARATOR);
+                }
+            }
+
+            cardNumber.removeTextChangedListener(this);
+            cardNumber.setText(formatted.toString());
+            cardNumber.setSelection(formatted.length());
+            cardNumber.addTextChangedListener(this);
+        }
+    }
     private boolean validateCardDetails() {
-        String cardNumberValue = cardNumber.getText().toString().trim();
+        String cardNumberValue = cardNumber.getText().toString().trim().replaceAll("\\s", ""); // Remove spaces
         String expiryDateValue = expiryDate.getText().toString().trim();
         String cvvValue = cvv.getText().toString().trim();
 
@@ -100,6 +134,7 @@ public class payment_activity extends AppCompatActivity {
 
         return true;
     }
+
 
     private void saveCardDetails() {
         String cardNumberValue = cardNumber.getText().toString().trim();
