@@ -30,7 +30,8 @@ public class Details_Activity extends AppCompatActivity {
     ImageView iconImageView;
     private boolean isSaved = false;
     DatabaseReference saveReference;
-    String id;
+    String id,name;
+    String image;
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
@@ -57,14 +58,15 @@ public class Details_Activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String name = snapshot.child("name").getValue(String.class);
+                         name = snapshot.child("name").getValue(String.class);
                         String location = snapshot.child("city").getValue(String.class) + ", " + snapshot.child("country").getValue(String.class);
                         price = snapshot.child("price").getValue(String.class);
-                        String image = snapshot.child("image").getValue(String.class);
+
                         String information = snapshot.child("information").getValue(String.class);
                         String Service = snapshot.child("service").getValue(String.class);
                         String temp = snapshot.child("temprature").getValue(String.class);
                         id = snapshot.child("id").getValue(String.class);
+                        image = snapshot.child("image").getValue(String.class);
                         ImageView backgroundImageView = findViewById(R.id.backgroundImageView);
                         TextView NametextView1 = findViewById(R.id.NametextView1);
                         TextView LocationtextView2 = findViewById(R.id.LocationtextView2);
@@ -179,19 +181,27 @@ public class Details_Activity extends AppCompatActivity {
         });
 
         proceed = findViewById(R.id.proceed);
+        proceed = findViewById(R.id.proceed);
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("price", "Passing price: " + price + ", number of people: " + numberOfPeople + ", placeName: " + placeName);
-                Intent intent = new Intent(Details_Activity.this, payment_activity.class);
-                intent.putExtra("price", price);
-                intent.putExtra("numberOfPeople", numberOfPeople);
-                intent.putExtra("placeName", placeName);
-                intent.putExtra("placeId",  id);
-                startActivity(intent);
+                if (numberOfPeople.isEmpty()) {
+                    Toast.makeText(Details_Activity.this, "Please select the number of people", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.d("price", "Passing price: " + price + ", number of people: " + numberOfPeople + ", placeName: " + placeName);
+                    Intent intent = new Intent(Details_Activity.this, payment_activity.class);
+                    intent.putExtra("price", price);
+                    intent.putExtra("numberOfPeople", numberOfPeople);
+                    intent.putExtra("placeName", placeName);
+                    intent.putExtra("placeId", id);
+                    intent.putExtra("name", name);
+                    intent.putExtra("image", image);
+                    startActivity(intent);
+                }
             }
         });
     }
+
 
     private void resetImages() {
         imageView1.setImageResource(R.drawable.sun);
