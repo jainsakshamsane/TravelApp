@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.travelapp.Adapters.AllHistoryAdapter;
 import com.travelapp.Adapters.BestPlacesAdapter;
 import com.travelapp.Adapters.HistoryAdapter;
 import com.travelapp.Adapters.UpcomingPlacesAdapter;
@@ -39,11 +41,12 @@ import java.util.Locale;
 public class UpcomingTourActivity extends AppCompatActivity {
 
     ImageView back;
-    private ImageView imageView1, imageView2, imageView3, imageView4, imageView5;
-    private RecyclerView locationRecyclerView;
+    private RecyclerView locationRecyclerView, recyclerView12;
     UpcomingPlacesAdapter adapter;
     List<PlacesModel> placeModelList = new ArrayList<>();
     HistoryAdapter paymentHistoryAdapter;
+    AllHistoryAdapter allHistoryAdapter;
+    LinearLayout linear6;
     List<TransactionModel> paymentList = new ArrayList<>();
     TextView noPlacesTextView;
 
@@ -53,58 +56,15 @@ public class UpcomingTourActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upcomingtour_activity);
 
-        // Initialize ImageViews
-        imageView1 = findViewById(R.id.imageView1);
-        imageView2 = findViewById(R.id.imageView2);
-        imageView3 = findViewById(R.id.imageView3);
-        imageView4 = findViewById(R.id.imageView4);
-        imageView5 = findViewById(R.id.imageView5);
-
-        // Set click listeners
-        imageView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetImages();
-                imageView1.setImageResource(R.drawable.sunorange);
-            }
-        });
-
-        imageView2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetImages();
-                imageView2.setImageResource(R.drawable.areoplaneeee);
-            }
-        });
-
-        imageView3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetImages();
-                imageView3.setImageResource(R.drawable.boatorange);
-            }
-        });
-
-        imageView4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetImages();
-                imageView4.setImageResource(R.drawable.busorange);
-            }
-        });
-
-        imageView5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetImages();
-                imageView5.setImageResource(R.drawable.bikeorange);
-            }
-        });
-
         back = findViewById(R.id.back);
         noPlacesTextView = findViewById(R.id.noPlacesTextView);
         locationRecyclerView = findViewById(R.id.recyclerView12);
         locationRecyclerView.setLayoutManager(new LinearLayoutManager(UpcomingTourActivity.this, LinearLayoutManager.VERTICAL, false));
+
+        recyclerView12 = findViewById(R.id.recyclerView122);
+        recyclerView12.setLayoutManager(new LinearLayoutManager(UpcomingTourActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView12.setHasFixedSize(true);
+        linear6 = findViewById(R.id.linear6);
 
         DatabaseReference paymentRef = FirebaseDatabase.getInstance().getReference("payments");
         DatabaseReference placeRef = FirebaseDatabase.getInstance().getReference("places");
@@ -187,6 +147,80 @@ public class UpcomingTourActivity extends AppCompatActivity {
             }
         });
 
+
+        DatabaseReference paymentsRef = FirebaseDatabase.getInstance().getReference("payments");
+        DatabaseReference placesRef = FirebaseDatabase.getInstance().getReference("places");
+
+        allHistoryAdapter = new AllHistoryAdapter(this, placeModelList);
+
+        paymentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot cardsSnapshot) {
+                paymentList.clear(); // Clear the list before adding new data
+
+                for (DataSnapshot cardSnapshot : cardsSnapshot.getChildren()) {
+                    String placename = cardSnapshot.child("placeName").getValue(String.class);
+                    String userId = cardSnapshot.child("userId").getValue(String.class);
+
+                    // Assuming you have a Payment class to represent the data
+                    TransactionModel payment = new TransactionModel(placename, userId);
+                    paymentList.add(payment);
+                }
+
+                // Fetch and process data from payments node
+                placesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot paymentsSnapshot) {
+                        for (TransactionModel payment : paymentList) {
+                            for (DataSnapshot placeSnapshot : paymentsSnapshot.getChildren()) {
+                                String nameofplace = placeSnapshot.child("name").getValue(String.class);
+
+                                SharedPreferences sharedPreferencess = getSharedPreferences("userdetails", MODE_PRIVATE);
+                                String userid = sharedPreferencess.getString("userid", "");
+
+                                // Check if userId matches the currently logged-in user's userid
+                                if (payment.getUserId().equals(userid)) {
+                                    // Proceed to check the placeName condition
+                                    if (payment.getPlaceName().equals(nameofplace)) {
+                                        // Example: Fetch placeName from payments
+                                        String placename = placeSnapshot.child("name").getValue(String.class);
+                                        String city = placeSnapshot.child("city").getValue(String.class);
+                                        String country = placeSnapshot.child("country").getValue(String.class);
+                                        String price = placeSnapshot.child("price").getValue(String.class);
+                                        String image = placeSnapshot.child("image").getValue(String.class);
+                                        Log.d("PlaceMethodActivity", "Linked Data - UserId: " + payment.getPlaceName() + ", Name: " + placename + city + country + price);
+
+                                        PlacesModel placeModel = new PlacesModel(placename, city, country, price, image);
+                                        placeModelList.add(placeModel);
+
+                                        // Set the adapter after cards data is retrieved
+                                        recyclerView12.setAdapter(allHistoryAdapter);
+                                        recyclerView12.setVisibility(View.VISIBLE);
+                                        linear6.setVisibility(View.GONE);
+                                    }
+                                } else {
+                                    recyclerView12.setVisibility(View.GONE);
+                                    linear6.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+                        // Notify the adapter that the data has changed
+                        allHistoryAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(UpcomingTourActivity.this, "Failed to retrieve payments", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(UpcomingTourActivity.this, "Failed to retrieve places", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -207,13 +241,5 @@ public class UpcomingTourActivity extends AppCompatActivity {
             e.printStackTrace();
             return false;
         }
-    }
-
-    private void resetImages() {
-        imageView1.setImageResource(R.drawable.sun);
-        imageView2.setImageResource(R.drawable.areoplanewhite);
-        imageView3.setImageResource(R.drawable.boattt);
-        imageView4.setImageResource(R.drawable.busss);
-        imageView5.setImageResource(R.drawable.bike);
     }
 }

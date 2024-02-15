@@ -28,8 +28,12 @@ import com.travelapp.Models.PlaceModel;
 import com.travelapp.Models.PlacesModel;
 import com.travelapp.Models.TransactionModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class By_Payment_Method_Activity extends AppCompatActivity {
 
@@ -184,15 +188,19 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                                         String country = placeSnapshot.child("country").getValue(String.class);
                                         String price = placeSnapshot.child("price").getValue(String.class);
                                         String image = placeSnapshot.child("image").getValue(String.class);
+                                        String startdate = placeSnapshot.child("date_start").getValue(String.class);
                                         Log.d("PlaceMethodActivity", "Linked Data - UserId: " + payment.getPlaceName() + ", Name: " + placename + city + country + price);
 
-                                        PlacesModel placeModel = new PlacesModel(placename, city, country, price, image);
-                                        placeModelList.add(placeModel);
+                                        // Compare the start date with today's date
+                                        if (isStartDateGreaterThanToday(startdate)) {
+                                            PlacesModel placeModel = new PlacesModel(placename, city, country, price, image);
+                                            placeModelList.add(placeModel);
 
-                                        // Set the adapter after cards data is retrieved
-                                        recyclerView12.setAdapter(paymentHistoryAdapter);
-                                        recyclerView12.setVisibility(View.VISIBLE);
-                                        linear5.setVisibility(View.GONE);
+                                            // Set the adapter after cards data is retrieved
+                                            recyclerView12.setAdapter(paymentHistoryAdapter);
+                                            recyclerView12.setVisibility(View.VISIBLE);
+                                            linear5.setVisibility(View.GONE);
+                                        }
                                     }
                                 } else {
                                     recyclerView12.setVisibility(View.GONE);
@@ -224,5 +232,18 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    // Function to check if the start date is greater than today
+    private boolean isStartDateGreaterThanToday(String startDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        Date currentDate = new Date();
+        try {
+            Date startDateObject = dateFormat.parse(startDate);
+            return startDateObject != null && startDateObject.after(currentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
