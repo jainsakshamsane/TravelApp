@@ -349,11 +349,10 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void updateImageUrl() {
-
         SharedPreferences sharedPreferences = getSharedPreferences("imagedata", MODE_PRIVATE);
         String newImageUrl = sharedPreferences.getString("image", "");
 
-        if (!newImageUrl.equals(imageUrl)) {
+        if (!newImageUrl.isEmpty() && !newImageUrl.equals(imageUrl)) {
             reference.child(username).child("imageurl").setValue(newImageUrl)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -431,8 +430,8 @@ public class EditProfileActivity extends AppCompatActivity {
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
-                imageView.setVisibility(View.VISIBLE);
+                profileimage.setImageBitmap(bitmap);
+                imageView.setVisibility(View.GONE);
                 btnUpload.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -449,47 +448,36 @@ public class EditProfileActivity extends AppCompatActivity {
             StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());
 
             ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri downloadUri) {
-                                    progressDialog.dismiss();
-                                    String imageUrl = downloadUri.toString();
-
-                                    SharedPreferences sharedPreferences = getSharedPreferences("imagedata", MODE_PRIVATE);
-                                    SharedPreferences.Editor editors = sharedPreferences.edit();
-                                    editors.putString("image", imageUrl);
-                                    editors.apply();
-
-                                    // Update the imageUrl field in SigninModel
-                                    updateImageUrlInModel(username, imageUrl);
-
-                                    // Save the imageUrl to the database directly
-                                    reference.child(username).child("imageurl").setValue(imageUrl);
-
-                                    Toast.makeText(EditProfileActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                    .addOnSuccessListener(taskSnapshot -> {
+                        ref.getDownloadUrl().addOnSuccessListener(downloadUri -> {
                             progressDialog.dismiss();
-                            Toast.makeText(EditProfileActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                            String imageUrl = downloadUri.toString();
+
+                            SharedPreferences sharedPreferences = getSharedPreferences("imagedata", MODE_PRIVATE);
+                            SharedPreferences.Editor editors = sharedPreferences.edit();
+                            editors.putString("image", imageUrl);
+                            editors.apply();
+
+                            // Update the imageUrl field in SigninModel
+                            updateImageUrlInModel(username, imageUrl);
+
+                            // Save the imageUrl to the database directly
+                            updateImageUrl();
+
+                            Toast.makeText(EditProfileActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                        });
                     })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                        }
+                    .addOnFailureListener(e -> {
+                        progressDialog.dismiss();
+                        Toast.makeText(EditProfileActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnProgressListener(taskSnapshot -> {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                        progressDialog.setMessage("Uploaded " + (int) progress + "%");
                     });
         }
     }
+
 
     private void updateImageUrlInModel(String username, String imageUrl) {
         DatabaseReference userRef = reference.child(username);

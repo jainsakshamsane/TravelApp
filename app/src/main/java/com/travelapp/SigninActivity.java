@@ -49,9 +49,9 @@ public class SigninActivity extends AppCompatActivity {
     EditText signupName, signupUsername, signupEmail, signupPassword, signupphone, bio;
     TextView loginRedirectText;
     private Button btnUpload;
-    private ImageView imageView;
+    private ImageView imageView, uploadimage;;
     private Uri filePath;
-    TextView signupButton, uploadimage;
+    TextView signupButton;
     FirebaseDatabase database;
     DatabaseReference reference;
     FirebaseStorage storage;
@@ -237,6 +237,18 @@ public class SigninActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("imagedata", MODE_PRIVATE);
                 String imageurl = sharedPreferences.getString("image", "");
 
+                // Clear the SharedPreferences
+                SharedPreferences sharedPreferencesClear = getSharedPreferences("imagedata", MODE_PRIVATE);
+                SharedPreferences.Editor editorsClear = sharedPreferencesClear.edit();
+                editorsClear.clear();
+                editorsClear.apply();
+
+                if (imageurl.isEmpty()) {
+                    // If the profile picture is not uploaded, show a message and return
+                    Toast.makeText(SigninActivity.this, "Please upload a profile picture", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 // Generate a unique ID using push()
                 DatabaseReference userRef = reference.push();
                 String userId = userRef.getKey();
@@ -295,8 +307,8 @@ public class SigninActivity extends AppCompatActivity {
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
-                imageView.setVisibility(View.VISIBLE);
+                uploadimage.setImageBitmap(bitmap);
+                imageView.setVisibility(View.GONE);
                 btnUpload.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 e.printStackTrace();
