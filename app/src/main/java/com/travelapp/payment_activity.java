@@ -81,7 +81,17 @@ public class payment_activity extends AppCompatActivity {
             numberOfPeople = extras.getString("numberOfPeople");
             Log.d("price", "Passing price: " + price + ", number of people: " + numberOfPeople + ", placeName: " + placeName);
         }
+        userId = getSharedPreferences("userdetails", MODE_PRIVATE).getString("userid", "");
+
+        // Save card details to Firebase when user clicks proceed
+        findViewById(R.id.proceed).setOnClickListener(v -> {
+            if (validateCardDetails()) {
+                saveCardDetails();
+                savePaymentDetails();
+            }
+        });
     }
+
 
 
     private class CardNumberTextWatcher implements TextWatcher {
