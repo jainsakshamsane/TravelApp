@@ -51,7 +51,7 @@ android:layout_margin="10dp"
                 android:layout_below="@id/NameTextview"
                 android:layout_marginTop="8dp"
                 android:drawableStart="@drawable/baseline_location_on_24"
-
+                android:textStyle="bold"
                 android:text="TextView 2"
                 android:textColor="#d9d9d9"
                 android:textSize="12dp" />

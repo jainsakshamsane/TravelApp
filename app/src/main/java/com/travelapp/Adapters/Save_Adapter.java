@@ -47,8 +47,8 @@ public class Save_Adapter extends RecyclerView.Adapter<Save_Adapter.ViewHolder> 
         // Bind data to views
         holder.nameTextView.setText(place.getName());
         holder.locationTextView.setText(place.getLocation());
-//        holder.noOfDaysTextView.setText(place.getNo_of_days() + " days");
-//        holder.seasonTextView.setText(place.getSeason());
+        holder.noOfDaysTextView.setText(place.getNo_of_days() + " days");
+        holder.seasonTextView.setText(place.getSeason());
         holder.priceTextView.setText(place.getPrice());
 
         Picasso.get().load(place.getImage()).into(holder.imageView);
@@ -86,8 +86,8 @@ public class Save_Adapter extends RecyclerView.Adapter<Save_Adapter.ViewHolder> 
             super(itemView);
             nameTextView = itemView.findViewById(R.id.NameTextview);
             locationTextView = itemView.findViewById(R.id.LocationTextview);
-//            noOfDaysTextView = itemView.findViewById(R.id.NoofdaysTextview);
-//            seasonTextView = itemView.findViewById(R.id.SeasonTextview);
+            noOfDaysTextView = itemView.findViewById(R.id.NoofdaysTextview);
+            seasonTextView = itemView.findViewById(R.id.SeasonTextview);
             priceTextView = itemView.findViewById(R.id.PriceTextview);
             imageView = itemView.findViewById(R.id.imageView);
             Totallayout = itemView.findViewById(R.id.Totallayout);

@@ -242,6 +242,8 @@ public class Details_Activity extends AppCompatActivity {
                                     String information = snapshot.child("information").getValue(String.class);
                                     String Service = snapshot.child("service").getValue(String.class);
                                     String temp = snapshot.child("temprature").getValue(String.class);
+                                    String season = snapshot.child("season").getValue(String.class);
+                                    String no_of_days = snapshot.child("no_of_days").getValue(String.class);
 
                                     String userId = getSharedPreferences("userdetails", MODE_PRIVATE).getString("userid", "");
 
@@ -253,6 +255,8 @@ public class Details_Activity extends AppCompatActivity {
                                     saveRef.child("service").setValue(Service);
                                     saveRef.child("temp").setValue(temp);
                                     saveRef.child("userId").setValue(userId);
+                                    saveRef.child("season").setValue(season);
+                                    saveRef.child("no_of_days").setValue(no_of_days);
                                 }
                                 iconImageView.setImageResource(R.drawable.saveslect);
                                 Toast.makeText(Details_Activity.this, "Added to saved", Toast.LENGTH_SHORT).show();
