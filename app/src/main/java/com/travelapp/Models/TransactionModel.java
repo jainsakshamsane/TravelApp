@@ -14,10 +14,12 @@ public class TransactionModel {
         this.userId = userId;
     }
 
-    public TransactionModel(String placename, String userId, String date) {
+    public TransactionModel(String placename, String userId, String date, String card_id, String id) {
         this.placeName = placename;
         this.userId = userId;
         this.date = date;
+        this.card_id = card_id;
+        this.id = id;
     }
 
     public TransactionModel(String placename, String userId, String placeid, String people) {

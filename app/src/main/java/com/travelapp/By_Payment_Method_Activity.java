@@ -165,9 +165,11 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                     String placename = cardSnapshot.child("placeName").getValue(String.class);
                     String userId = cardSnapshot.child("userId").getValue(String.class);
                     String date = cardSnapshot.child("time").getValue(String.class);
+                    String cardid = cardSnapshot.child("card_id").getValue(String.class);
+                    String placekiid = cardSnapshot.child("id").getValue(String.class);
 
                     // Assuming you have a Payment class to represent the data
-                    TransactionModel payment = new TransactionModel(placename, userId, date);
+                    TransactionModel payment = new TransactionModel(placename, userId, date, cardid, placekiid);
                     paymentList.add(payment);
                 }
 
@@ -178,6 +180,7 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                         for (TransactionModel payment : paymentList) {
                             for (DataSnapshot placeSnapshot : paymentsSnapshot.getChildren()) {
                                 String nameofplace = placeSnapshot.child("name").getValue(String.class);
+                                String idsplace = placeSnapshot.child("id").getValue(String.class);
 
                                 SharedPreferences sharedPreferencess = getSharedPreferences("userdetails", MODE_PRIVATE);
                                 String userid = sharedPreferencess.getString("userid", "");
@@ -185,7 +188,7 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                                 // Check if userId matches the currently logged-in user's userid
                                 if (payment.getUserId().equals(userid)) {
                                     // Proceed to check the placeName condition
-                                    if (payment.getPlaceName().equals(nameofplace)) {
+                                    if (payment.getId().equals(idsplace)) {
                                         // Example: Fetch placeName from payments
                                             String placename = placeSnapshot.child("name").getValue(String.class);
                                             String city = placeSnapshot.child("city").getValue(String.class);
@@ -193,13 +196,15 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
                                             String price = placeSnapshot.child("price").getValue(String.class);
                                             String image = placeSnapshot.child("image").getValue(String.class);
                                             String idplace = placeSnapshot.child("id").getValue(String.class);
-                                            Log.d("PlaceMethodActivity", "Linked Data - UserId: " + payment.getPlaceName() + ", Name: " + placename + city + country + price);
+                                            String startdate = placeSnapshot.child("date_start").getValue(String.class);
 
+                                        if (isStartDateLessThanToday(startdate)) {
+                                            Log.d("PlaceMethodActivity", "Linked Data - UserId: " + payment.getPlaceName() + ", Name: " + placename + city + country + price);
                                             PlacesModel placeModel = new PlacesModel(placename, city, country, price, image, idplace);
                                             placeModelList.add(placeModel);
 
                                             // Set the adapter after cards data is retrieved
-
+                                        }
                                     }
                                 } else {
                                     recyclerView12.setVisibility(View.GONE);
@@ -256,5 +261,18 @@ public class By_Payment_Method_Activity extends AppCompatActivity {
     private String getCurrentDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         return dateFormat.format(new Date());
+    }
+
+    // Function to check if the start date is less than today
+    private boolean isStartDateLessThanToday(String startDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        Date currentDate = new Date();
+        try {
+            Date startDateObject = dateFormat.parse(startDate);
+            return startDateObject != null && startDateObject.before(currentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

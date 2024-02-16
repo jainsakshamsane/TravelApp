@@ -120,9 +120,12 @@ public class UpcomingTourActivity extends AppCompatActivity {
                                     String startdate = placeSnapshot.child("date_start").getValue(String.class);
                                     String noofdays = placeSnapshot.child("no_of_days").getValue(String.class);
                                     String season = placeSnapshot.child("season").getValue(String.class);
-                                    Log.e("inside", "placeModelList" + placename + "**" + city + "**" + country + "**" + idplace);
-                                    PlacesModel placeModel = new PlacesModel(placename, city, country, price, image, idplace);
-                                    placeModelList.add(placeModel);
+
+                                    if (isStartDateLessThanToday(startdate)) {
+                                        Log.e("inside", "placeModelList" + placename + "**" + city + "**" + country + "**" + idplace);
+                                        PlacesModel placeModel = new PlacesModel(placename, city, country, price, image, idplace);
+                                        placeModelList.add(placeModel);
+                                    }
                                     // Compare the start date with today's date
                                     if (isStartDateGreaterThanToday(startdate)) {
                                         Log.e("inside", "UpcomingModelList" + placename + "**" + city + "**" + noofdays + "**" + idplace);
@@ -196,4 +199,18 @@ public class UpcomingTourActivity extends AppCompatActivity {
             return false;
         }
     }
+
+    // Function to check if the start date is less than today
+    private boolean isStartDateLessThanToday(String startDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        Date currentDate = new Date();
+        try {
+            Date startDateObject = dateFormat.parse(startDate);
+            return startDateObject != null && startDateObject.before(currentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
