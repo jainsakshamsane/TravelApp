@@ -53,7 +53,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/userRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="620dp"
+                android:layout_height="666dp"
                 android:paddingBottom="8dp" />
 
         </RelativeLayout>

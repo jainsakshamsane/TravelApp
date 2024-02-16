@@ -167,13 +167,14 @@ public class UserMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     static class ImageReceiverViewHolder extends RecyclerView.ViewHolder {
-        ImageView receiverImageView;
+        ImageView receiverImageView,receiverImageIcon;
         ProgressBar receiverLoadingIndicator;
 
         ImageReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
             receiverImageView = itemView.findViewById(R.id.receiverImageView);
             receiverLoadingIndicator = itemView.findViewById(R.id.receiverLoadingIndicator);
+            receiverImageIcon = itemView.findViewById(R.id.receiverImageIcon);
         }
 
         void bind(Message message) {
@@ -195,7 +196,37 @@ public class UserMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 receiverImageView.setVisibility(View.GONE);
                 receiverLoadingIndicator.setVisibility(View.GONE);
             }
-        }
+
+        DatabaseReference placesRef = FirebaseDatabase.getInstance().getReference().child("places");
+        Query query = placesRef.orderByChild("id").equalTo(message.getPlaceid());
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot placeSnapshot : dataSnapshot.getChildren()) {
+                        String imageUrl = placeSnapshot.child("image").getValue(String.class);
+                        if (imageUrl != null) {
+                            // Load image using Picasso
+                            Picasso.get().load(imageUrl)
+                                    .placeholder(R.drawable.authorrr) // Placeholder image while loading
+                                    .error(R.drawable.authorrr) // Image to show if loading fails
+                                    .into(receiverImageIcon);
+                        }
+                    }
+                } else {
+                    // If no place found with the given placeId, you can load a default image or handle it as per your requirement
+                    // For example, loading a placeholder image
+                    receiverImageIcon.setImageResource(R.drawable.authorrr);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle any errors
+                Log.e("UserMessageAdapter", "Error loading image: " + databaseError.getMessage());
+            }
+        });
+    }
     }
 
     static class ImageSenderViewHolder extends RecyclerView.ViewHolder {
